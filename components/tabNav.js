@@ -1,14 +1,14 @@
-import React, { useContext, useEffect } from 'react';
-import { getLoged } from '../apis/UserDatabaseApi';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { createStackNavigator } from '@react-navigation/stack';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import Login from '../pages/login';
-import Home from '../pages/Home';
-import FocusComic from '../pages/focusComic';
-import LogedContext from '../contexts/logedContext';
-import PullList from '../pages/pullList';
-import Collection from '../pages/collection';
+import React, { useContext, useEffect } from "react";
+import { getLoged } from "../apis/UserDatabaseApi";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import Login from "../pages/login";
+import Home from "../pages/Home";
+import FocusComic from "../pages/focusComic";
+import LogedContext from "../contexts/logedContext";
+import PullList from "../pages/pullList";
+import Collection from "../pages/collection";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -56,6 +56,7 @@ const TabNav = () => {
     });
   }, []);
 
+  // 2 Different Bottom Navs for Logged in and not.
   if (loged) {
     return (
       <Tab.Navigator
@@ -63,23 +64,24 @@ const TabNav = () => {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === 'Main') {
-              iconName = focused ? 'ios-home' : 'ios-home';
-            } else if (route.name === 'Register') {
-              iconName = focused ? 'ios-list-box' : 'ios-list';
-            } else if (route.name === 'Pull List') {
-              iconName = 'md-arrow-round-down';
-            } else if (route.name === 'Collection') {
-              iconName = 'md-filing';
+            if (route.name === "Main") {
+              iconName = focused ? "ios-home" : "ios-home";
+            } else if (route.name === "Register") {
+              iconName = focused ? "ios-list-box" : "ios-list";
+            } else if (route.name === "Pull List") {
+              iconName = "md-arrow-round-down";
+            } else if (route.name === "Collection") {
+              iconName = "md-filing";
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'red',
-          inactiveTintColor: 'gray',
-        }}>
+          activeTintColor: "red",
+          inactiveTintColor: "gray",
+        }}
+      >
         <Tab.Screen name="Main" component={HomeStackScreen} />
         <Tab.Screen name="Pull List" component={PullStackScreen} />
         <Tab.Screen name="Collection" component={CollectionStackScreen} />
@@ -92,23 +94,24 @@ const TabNav = () => {
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
 
-            if (route.name === 'Main') {
-              iconName = focused ? 'ios-home' : 'ios-home';
-            } else if (route.name === 'Register') {
-              iconName = focused ? 'ios-list-box' : 'ios-list';
-            } else if (route.name === 'Pull List') {
-              iconName = 'md-arrow-round-down';
-            } else if (route.name === 'Collection') {
-              iconName = 'md-filing';
+            if (route.name === "Main") {
+              iconName = focused ? "ios-home" : "ios-home";
+            } else if (route.name === "Register") {
+              iconName = focused ? "ios-list-box" : "ios-list";
+            } else if (route.name === "Pull List") {
+              iconName = "md-arrow-round-down";
+            } else if (route.name === "Collection") {
+              iconName = "md-filing";
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;
           },
         })}
         tabBarOptions={{
-          activeTintColor: 'red',
-          inactiveTintColor: 'gray',
-        }}>
+          activeTintColor: "red",
+          inactiveTintColor: "gray",
+        }}
+      >
         <Tab.Screen name="Main" component={HomeStackScreen} />
         <Tab.Screen name="Login" component={Login} />
       </Tab.Navigator>

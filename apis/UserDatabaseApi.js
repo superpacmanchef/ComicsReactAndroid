@@ -1,5 +1,5 @@
-import Axios from 'axios';
-const link = 'http://7c2f7ce5cafe.ngrok.io';
+import Axios from "axios";
+const link = "http://696ad6915651.ngrok.io";
 
 //Gets users pullList and updates Pullist
 export const getPull = async () => {
@@ -88,9 +88,9 @@ export const login = (username, password) => {
     password,
   }).then((loged) => {
     if (!loged.data) {
-      return 'false';
+      return "false";
     } else {
-      return 'true';
+      return "true";
     }
   });
 };

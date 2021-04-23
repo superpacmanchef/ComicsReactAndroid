@@ -1,24 +1,24 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { View, StyleSheet, Modal } from 'react-native';
-import { getComics, getImages } from '../apis/ComicApi';
-import Comics from '../components/comics';
-import FilterComics from '../components/filterComics';
-import FAB from 'react-native-fab';
-import PageNavigation from '../components/pageNavigation';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import LogedContext from '../contexts/logedContext';
-import { PullContext } from '../contexts/pullContext';
-import { comicTitleSplit } from '../utils/comicDataProcessesing';
+import React, { useState, useEffect, useContext } from "react";
+import { View, StyleSheet, Modal } from "react-native";
+import { getComics, getImages } from "../apis/ComicApi";
+import Comics from "../components/comics";
+import FilterComics from "../components/filterComics";
+import FAB from "react-native-fab";
+import PageNavigation from "../components/pageNavigation";
+import Ionicons from "react-native-vector-icons/Ionicons";
+import LogedContext from "../contexts/logedContext";
+import { PullContext } from "../contexts/pullContext";
+import { comicTitleSplit } from "../utils/comicDataProcessesing";
 
 const Home = ({ navigation }) => {
   const [totalPages, updateTotalPages] = useState(0);
   const [allComics, updateAllComics] = useState([]);
   const [filteredComics, updateFilteredComics] = useState([]);
   const [publishers, updatePublishers] = useState([
-    'ALL',
-    'MARVEL COMICS',
-    'DC',
-    'IMAGE COMICS',
+    "ALL",
+    "MARVEL COMICS",
+    "DC",
+    "IMAGE COMICS",
   ]);
   const [publisherState, updatePublisherState] = useState(publishers[0]);
   const [weekState, updateWeekState] = useState(1);
@@ -32,19 +32,25 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     filterChangeHandler();
   }, []);
+
   useEffect(() => {
     ComicsPageHandler();
   }, [filteredComics, pageNo]);
+
   useEffect(() => {
     if (loged) {
-      const pub = ['ALL', 'MARVEL COMICS', 'DC', 'IMAGE COMICS', 'PULL'];
+      const pub = ["ALL", "MARVEL COMICS", "DC", "IMAGE COMICS", "PULL"];
       updatePublishers(pub);
     } else {
-      const pub = ['ALL', 'MARVEL COMICS', 'DC', 'IMAGE COMICS'];
+      const pub = ["ALL", "MARVEL COMICS", "DC", "IMAGE COMICS"];
       updatePublishers(pub);
     }
   }, [loged]);
 
+  //If week hasnt chnaged from last invokation
+  //Get and update new filteredComics and update TotalPages accordingly
+  //Else Get desired weeks comics, update weekState, filter out variants update all comics
+  //filter , order and update filteredComics and update TotalPages accordingly
   const filterChangeHandler = async () => {
     updatePageNo(0);
     if (lastWeekState && lastWeekState === weekState) {
@@ -62,22 +68,24 @@ const Home = ({ navigation }) => {
       updateFilteredComics(filteredComics);
     }
   };
+
+  //Filters array of comics and returen array of only publisher in publisherState
   const filterComicPublisher = (comics) => {
-    if (publisherState === 'ALL') {
+    if (publisherState === "ALL") {
       return comics;
-    } else if (publisherState === 'PULL') {
+    } else if (publisherState === "PULL") {
       let f = [];
       comics.map((comic) => {
         for (let x = 0; x < pull.length; x++) {
           const comicTitle = comic.title
-            .replace(/THE /g, '')
-            .replace(/AND /g, '');
+            .replace(/THE /g, "")
+            .replace(/AND /g, "");
 
           let strippedPull = pull[x]
             .toUpperCase()
-            .replace(/[.,#!$%&;:{}=`~()]/g, '')
-            .replace(/AND /g, '')
-            .replace(/THE /g, '');
+            .replace(/[.,#!$%&;:{}=`~()]/g, "")
+            .replace(/AND /g, "")
+            .replace(/THE /g, "");
 
           const [name] = comicTitleSplit(comicTitle);
           if (strippedPull === name) {
@@ -94,23 +102,24 @@ const Home = ({ navigation }) => {
       return f;
     }
   };
+  //Filter out variant comics from inpyut array of comics
   const filterComicVarients = (comics) => {
     let filteredComics = [];
     comics.map((comic) => {
       if (
-        comic.title.includes(' VAR') ||
-        comic.title.includes(' CVR') ||
-        comic.title.includes(' TP') ||
-        comic.title.includes(' VOL') ||
-        comic.title.includes(' OMNIBUS') ||
-        comic.title.includes('COPY') ||
-        comic.title.includes(' HC') ||
-        comic.title.includes(' LTD ED') ||
-        comic.title.includes(' COVER') ||
-        comic.title.includes(' GN') ||
-        comic.title.includes(' CV') ||
-        comic.title.includes(' VA') ||
-        comic.title.includes(' PTG')
+        comic.title.includes(" VAR") ||
+        comic.title.includes(" CVR") ||
+        comic.title.includes(" TP") ||
+        comic.title.includes(" VOL") ||
+        comic.title.includes(" OMNIBUS") ||
+        comic.title.includes("COPY") ||
+        comic.title.includes(" HC") ||
+        comic.title.includes(" LTD ED") ||
+        comic.title.includes(" COVER") ||
+        comic.title.includes(" GN") ||
+        comic.title.includes(" CV") ||
+        comic.title.includes(" VA") ||
+        comic.title.includes(" PTG")
       ) {
       } else {
         filteredComics.push(comic);
@@ -119,6 +128,7 @@ const Home = ({ navigation }) => {
     });
     return filteredComics;
   };
+  //Alphabetcally sort array of comics.`
   const alphSort = (comics) => {
     if (comics) {
       comics.sort(function (a, b) {
@@ -132,11 +142,17 @@ const Home = ({ navigation }) => {
       });
     }
   };
+
+  //Sets comicPage to Null , Gets comicsPage and updates
   const ComicsPageHandler = async () => {
     updateComicsPage();
     const comicsPage = await getComicsPage();
     updateComicsPage(comicsPage);
   };
+
+  //Returns number comics from collectionState, Gets Image from API and returns
+  //collectionState[pageNo * 10] to collectionState [pageNo * 10] + 9.
+  //10 items per page
   const getComicsPage = () => {
     return new Promise((resolve, reject) => {
       const comics = filteredComics;
@@ -171,11 +187,15 @@ const Home = ({ navigation }) => {
       }
     });
   };
+
+  //Navigates to Focus Comic on press
   const comicsPressHandler = (index) => {
-    navigation.navigate('FoucsComic', {
+    navigation.navigate("FoucsComic", {
       Comic: comicsPage[index],
     });
   };
+
+  //Ensures Page Number is possible i.e -1
   const updatePageNoHandler = (pos) => {
     if (pageNo < 0 && pos > 0) {
     } else if (pageNo + parseInt(pos) >= totalPages) {
@@ -192,7 +212,8 @@ const Home = ({ navigation }) => {
         visible={modalVisible}
         onRequestClose={() => {
           setModalVisible(false);
-        }}>
+        }}
+      >
         <FilterComics
           publisherState={publisherState}
           updatePublisherState={updatePublisherState}
@@ -205,7 +226,7 @@ const Home = ({ navigation }) => {
       </Modal>
       <Comics comicsPressHandler={comicsPressHandler} comics={comicsPage} />
       <FAB
-        iconTextComponent={<Ionicons name={'ios-funnel'} />}
+        iconTextComponent={<Ionicons name={"ios-funnel"} />}
         onClickAction={() => {
           setModalVisible(true);
         }}
@@ -223,14 +244,14 @@ const styles = StyleSheet.create({
   container: {
     marginBottom: 100,
     marginHorizontal: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   heading: {
     fontSize: 20,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   openButton: {
-    backgroundColor: 'grey',
+    backgroundColor: "grey",
     width: 50,
   },
 });

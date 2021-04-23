@@ -1,9 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, RefreshControl } from 'react-native';
-import { checkCollection, checkPullList } from '../apis/UserDatabaseApi';
-import LogedContext from '../contexts/logedContext';
-import { ScrollView } from 'react-native-gesture-handler';
-import FocusForm from '../components/focusForm';
+import React, { useContext, useState, useEffect } from "react";
+import { View, Text, Image, StyleSheet, RefreshControl } from "react-native";
+import { checkCollection, checkPullList } from "../apis/UserDatabaseApi";
+import LogedContext from "../contexts/logedContext";
+import { ScrollView } from "react-native-gesture-handler";
+import FocusForm from "../components/focusForm";
 
 const FocusComic = ({ route }) => {
   const { Comic, getPullHandler } = route.params;
@@ -11,6 +11,9 @@ const FocusComic = ({ route }) => {
   const [loged, updateLoged] = useContext(LogedContext);
   const [formType, updateFormType] = useState([]);
 
+  //updates FormType Array [1/3 ,2/4]
+  //odd for yes to comics is in collection / pull
+  //even for no to comics is in collection / pull
   const checkComic = async () => {
     if (loged) {
       const collectionRes = await checkCollection(Comic);
@@ -67,13 +70,13 @@ const styles = StyleSheet.create({
   },
   container: {
     marginHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   load: {
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   focusForm: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 });

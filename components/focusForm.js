@@ -1,19 +1,19 @@
-import React, { useContext } from 'react';
-import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import React, { useContext } from "react";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import {
   insertCollection,
   removeCollection,
   insertPullList,
   removePullList,
   getPull,
-} from '../apis/UserDatabaseApi';
-import { getMarvelData, getComicData } from '../apis/ComicApi';
+} from "../apis/UserDatabaseApi";
+import { getMarvelData, getComicData } from "../apis/ComicApi";
 import {
   processMarvelData,
   processComicVineData,
-} from '../utils/comicDataProcessesing';
-import { comicTitleSplit } from '../utils/comicDataProcessesing';
-import { PullContext } from '../contexts/pullContext';
+} from "../utils/comicDataProcessesing";
+import { comicTitleSplit } from "../utils/comicDataProcessesing";
+import { PullContext } from "../contexts/pullContext";
 
 const FocusForm = (props) => {
   const { focusType, comic, checkComic } = props;
@@ -22,7 +22,7 @@ const FocusForm = (props) => {
 
   //SPLIT MARVEL AND COMICVINE API PARTS
   const processData = async () => {
-    if (comic.publisher === 'MARVEL COMICS') {
+    if (comic.publisher === "MARVEL COMICS") {
       const marvelData = await getMarvelData(comic.diamond_id, comic.title);
       if (marvelData) {
         return processMarvelData(marvelData);
@@ -52,88 +52,94 @@ const FocusForm = (props) => {
     res.publisher = comic.publisher;
     const colRes = await insertCollection(res);
     if (colRes === true) {
-      alert('Added to Collection');
+      alert("Added to Collection");
       checkComic();
     } else {
-      alert('Error');
+      alert("Error");
     }
   };
   const removeCollectionHandler = async () => {
     const res = await processData();
     const colRes = await removeCollection(res);
     if (colRes === true) {
-      alert('done');
+      alert("done");
       checkComic();
     } else {
-      alert('error');
+      alert("error");
     }
   };
   const insertPullListHandler = async () => {
     const [name] = comicTitleSplit(comic.title);
     const pullRes = await insertPullList(name);
     if (pullRes) {
-      alert(pullRes + ' added to Pull.');
+      alert(pullRes + " added to Pull.");
       checkComic();
       getPull().then((res) => {
         updatePull(res);
       });
     } else {
-      alert('Error');
+      alert("Error");
     }
   };
   const removePullListHandler = async () => {
     const [name] = comicTitleSplit(comic.title);
     const pullRes = await removePullList(name);
     if (pullRes) {
-      alert('Removed from PullList');
+      alert("Removed from PullList");
       checkComic();
       getPull().then((res) => {
         updatePull(res);
       });
     } else {
-      alert('Error');
+      alert("Error");
     }
   };
 
   if (focusType == 1) {
     return (
-      //INSERT COLL
+      //INSERT COLLECTION BUTTON
       <TouchableOpacity
         style={styles.submit}
         onPress={() => {
           insertCollectionHandler();
-        }}>
+        }}
+      >
         <Text style={styles.buttonText}>Insert into Collection</Text>
       </TouchableOpacity>
     );
   } else if (focusType == 3) {
-    //REMOVE COLL
+    //REMOVE COLLECTION BUTTON
     return (
       <TouchableOpacity
         style={styles.submit}
         onPress={() => {
           removeCollectionHandler();
-        }}>
+        }}
+      >
         <Text style={styles.buttonText}>Remove from Collection</Text>
       </TouchableOpacity>
     );
   } else if (focusType == 2) {
+    //INSERT PULL LIST BUTTON
     return (
       <TouchableOpacity
         style={styles.submit}
         onPress={() => {
           insertPullListHandler();
-        }}>
+        }}
+      >
         <Text style={styles.buttonText}>Insert into Pull List</Text>
       </TouchableOpacity>
     );
   } else if (focusType == 4) {
+    //REMOVE PULL LIST BUTTON
     return (
       <TouchableOpacity
         style={styles.submit}
         onPress={() => {
           removePullListHandler();
-        }}>
+        }}
+      >
         <Text style={styles.buttonText}>Remove from Pull List</Text>
       </TouchableOpacity>
     );
@@ -146,11 +152,11 @@ export default FocusForm;
 
 const styles = StyleSheet.create({
   submit: {
-    backgroundColor: '#FFFF',
+    backgroundColor: "#FFFF",
     width: 100,
-    alignSelf: 'center',
-    alignItems: 'center',
-    textAlign: 'center',
+    alignSelf: "center",
+    alignItems: "center",
+    textAlign: "center",
     marginTop: 10,
     paddingTop: 15,
     paddingBottom: 15,
@@ -158,10 +164,10 @@ const styles = StyleSheet.create({
     marginRight: 30,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: 'rgb(0, 194, 128)',
+    borderColor: "rgb(0, 194, 128)",
   },
   buttonText: {
     fontSize: 15,
-    textAlign: 'center',
+    textAlign: "center",
   },
 });

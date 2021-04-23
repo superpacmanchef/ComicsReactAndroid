@@ -1,10 +1,10 @@
-import Axios from 'axios';
-const link = 'http://7c2f7ce5cafe.ngrok.io';
+import Axios from "axios";
+const link = "http://696ad6915651.ngrok.io";
 
 /////////////COMICVINE ... MARVELAPI ////////////
 //Takes in indivial comic and returns Cover
 export const getImages = async (comic) => {
-  if (comic.publisher === 'MARVEL COMICS') {
+  if (comic.publisher === "MARVEL COMICS") {
     const res = await Axios.post(`${link}/api/MarvelImg`, {
       comicID: comic.diamond_id,
     });
@@ -12,15 +12,15 @@ export const getImages = async (comic) => {
       try {
         return (
           res.data.data.results[0].images[0].path +
-          '.' +
+          "." +
           res.data.data.results[0].images[0].extension
         );
       } catch (e) {
         console.error(e);
-        return 'http://placecorgi.com/416/640';
+        return "http://placecorgi.com/416/640";
       }
     } else {
-      return 'http://placecorgi.com/416/640';
+      return "http://placecorgi.com/416/640";
     }
   } else {
     const res = await Axios.post(`${link}/api/ComicImg`, {
@@ -33,7 +33,7 @@ export const getComicData = async (
   comicID,
   comicName,
   comicDate,
-  comicTitle,
+  comicTitle
 ) => {
   const comicRes = await Axios.post(`${link}/api/ComicVineQuery`, {
     comicName: comicName,

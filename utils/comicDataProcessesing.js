@@ -1,6 +1,9 @@
+// Utility fuinctions for Comic Data
+
+//Processes both APIs data to return same information.
 export const processComicVineData = (data) => {
   const { description, id, name, cover_date, store_date } = data;
-  const issue_number = '#' + data.issue_number;
+  const issue_number = "#" + data.issue_number;
   const image = data.image.medium_url;
   const title = data.volume.name;
   return {
@@ -14,13 +17,12 @@ export const processComicVineData = (data) => {
     store_date,
   };
 };
-
 export const processMarvelData = (res) => {
   const { issueNumber, prices, series, images } = res;
   const title = series.name;
   const price = prices[0].price;
-  const image = images[0].path + '.' + images[0].extension;
-  const issue_number = '#' + issueNumber;
+  const image = images[0].path + "." + images[0].extension;
+  const issue_number = "#" + issueNumber;
   const marvelData = {
     issue_number,
     price,
@@ -30,14 +32,16 @@ export const processMarvelData = (res) => {
   return marvelData;
 };
 
+//Splits comic title and issue NO String into Array
+//(The Amazing Spider-Man #60) -> ["The Amazing Spider-Man" , "60"]
 export const comicTitleSplit = (comicTitle) => {
   let comicArr = [];
   for (let x = 0; x < comicTitle.length; x++) {
-    if (comicTitle[x] === '#') {
+    if (comicTitle[x] === "#") {
       comicArr.push(comicTitle.substring(0, x - 1));
       let z = comicTitle.length - x;
       for (let y = 1; y <= z; y++) {
-        if (comicTitle[x + y] === ' ' || comicTitle.length === x + y) {
+        if (comicTitle[x + y] === " " || comicTitle.length === x + y) {
           comicArr.push(comicTitle.substring(x + 1, x + y));
         }
       }

@@ -1,15 +1,15 @@
-import React, { useEffect, useContext } from 'react';
-import { PullContext } from '../contexts/pullContext';
-import { View, Text, StyleSheet } from 'react-native';
-import { getPull } from '../apis/UserDatabaseApi';
-import { FlatList } from 'react-native-gesture-handler';
+import React, { useEffect, useContext } from "react";
+import { PullContext } from "../contexts/pullContext";
+import { View, Text, StyleSheet } from "react-native";
+import { getPull } from "../apis/UserDatabaseApi";
+import { FlatList } from "react-native-gesture-handler";
 
 const PullList = () => {
   const [pull, updatePull] = useContext(PullContext);
 
+  //On page Load update pull
   useEffect(() => {
     if (pull == false) {
-      console.log('gg');
       getPull().then((res) => {
         updatePull(res);
       });
