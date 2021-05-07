@@ -11,7 +11,6 @@ import LogedContext from "../contexts/logedContext";
 
 const Login = () => {
   const [loged, updateLoged] = useContext(LogedContext);
-
   const [username, updateUsername] = useState("");
   const [password, updatePassword] = useState("");
 
@@ -21,7 +20,7 @@ const Login = () => {
     if (checkLoged) {
       updateLoged(checkLoged);
     } else {
-      alert("NAHHH FUCKED IT ");
+      alert("NAHHH FUCKED IT");
     }
   };
 

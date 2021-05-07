@@ -43,8 +43,6 @@ const Comics = (props) => {
               name = name.replace(/AND /g, "");
               let strippedPull = pull[x];
               if (strippedPull === name) {
-                console.log(name);
-                console.log(strippedPull);
                 arr[index] = true;
                 break;
               } else {

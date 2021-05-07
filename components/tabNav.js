@@ -75,7 +75,7 @@ const TabNav = () => {
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;
-          },
+          }
         })}
         tabBarOptions={{
           activeTintColor: "red",
