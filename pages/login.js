@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { login } from "../apis/UserDatabaseApi";
-import LogedContext from "../contexts/logedContext";
+import { useAppDispatch } from "../redux/hooks";
+import { logedTrue } from "../redux/reducers/logedIn";
 
 const Login = () => {
-  const [loged, updateLoged] = useContext(LogedContext);
+  const dispatch = useAppDispatch();
   const [username, updateUsername] = useState("");
   const [password, updatePassword] = useState("");
 
@@ -18,7 +19,7 @@ const Login = () => {
   const loginHandler = async () => {
     const checkLoged = await login(username, password);
     if (checkLoged) {
-      updateLoged(checkLoged);
+      dispatch(logedTrue());
     } else {
       alert("NAHHH FUCKED IT");
     }
