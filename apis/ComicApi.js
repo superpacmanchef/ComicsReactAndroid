@@ -1,5 +1,5 @@
 import Axios from "axios";
-const link = "http://696ad6915651.ngrok.io";
+const link = "http://c44f2fd5f811.ngrok.io";
 
 /////////////COMICVINE ... MARVELAPI ////////////
 //Takes in indivial comic and returns Cover
@@ -64,7 +64,12 @@ export const getComics = (week) => {
   return Axios.post(`${link}/api/NewComics`, {
     week,
   }).then((comicsResponse) => {
-    return comicsResponse.data.comics;
+    let comics = comicsResponse.data.comics;
+    if (comics !== undefined) {
+      return comics;
+    } else {
+      return [];
+    }
   });
 };
 

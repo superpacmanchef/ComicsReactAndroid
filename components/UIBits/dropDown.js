@@ -1,5 +1,5 @@
-import React from 'react';
-import { Picker, StyleSheet } from 'react-native';
+import React from "react";
+import { Picker, StyleSheet } from "react-native";
 
 const DropDown = (props) => {
   const { options, state, labels, updateState } = props;
@@ -9,7 +9,8 @@ const DropDown = (props) => {
       mode="dropdown"
       onValueChange={(itemValue) => updateState(itemValue)}
       selectedValue={state}
-      key={labels[0]}>
+      key={labels[0]}
+    >
       {options.map((option, index) => {
         return (
           <Picker.Item
@@ -27,12 +28,12 @@ export default DropDown;
 
 const styles = StyleSheet.create({
   dropDown: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     marginHorizontal: 20,
-    alignContent: 'center',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderColor: '#fff',
+    alignContent: "center",
+    alignItems: "center",
+    justifyContent: "center",
+    borderColor: "#fff",
     borderWidth: 1,
   },
 });

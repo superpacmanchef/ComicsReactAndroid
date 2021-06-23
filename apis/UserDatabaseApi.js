@@ -1,5 +1,6 @@
 import Axios from "axios";
-const link = "http://696ad6915651.ngrok.io";
+const link = "http://c44f2fd5f811.ngrok.io";
+import { comicTitleSplit } from "../utils/comicDataProcessesing";
 
 //Gets users pullList and updates Pullist
 export const getPull = async () => {
@@ -23,26 +24,58 @@ export const getUsername = async () => {
   }
 };
 
-export const checkPullList = async (comics) => {
-  const comic = await Axios.post(`${link}/user/checkPull`, {
-    comicName: comics.title,
-  });
-  if (comic.status == 200) {
-    return comic.data.resp;
+// export const checkPullList = async (comics: comics) => {
+//   const comic = await Axios.post("user/checkPull", {
+//     comicName: comics.title,
+//   });
+//   if (comic.status === 200) {
+//     return comic.data.resp;
+//   } else {
+//     return null;
+//   }
+// };
+export const checkPullList = (comic, pull) => {
+  let comicsTitle;
+  if (!comic.issue_number) {
+    let [title] = comicTitleSplit(comic.title);
+    comicsTitle = title;
   } else {
-    return null;
+    comicsTitle = comic.title;
   }
+
+  let pulFlag = 2;
+  for (let x = 0; x < pull.length; x++) {
+    if (comicsTitle) {
+      if (
+        pull[x]
+          .toUpperCase()
+          .replace(/[.,#!$%;:{}=`~()]/g, "")
+          .replace(/AND /g, "")
+          .replace(/THE /g, "") ===
+        comicsTitle.replace(/THE /g, "").replace(/The /g, "").toUpperCase()
+      ) {
+        pulFlag = 4;
+      }
+    }
+  }
+  return pulFlag;
 };
-export const checkCollection = async (comics) => {
-  const comic = await Axios.post(`${link}/user/checkCollection`, {
-    comicName: comics.title,
-    comicId: comics.diamond_id,
-  });
-  if (comic.status == 200) {
-    return comic.data.resp;
+export const checkCollection = (comic, collection) => {
+  let exist = 1;
+  if (comic.id) {
+    collection.forEach((collectionComic) => {
+      if (collectionComic.id === comic.id) {
+        exist = 3;
+      }
+    });
   } else {
-    return null;
+    collection.forEach((collectionComic) => {
+      if (collectionComic.diamond_id === comic.diamond_id) {
+        exist = 3;
+      }
+    });
   }
+  return exist;
 };
 
 export const insertCollection = async (res) => {
@@ -96,6 +129,10 @@ export const login = (username, password) => {
 };
 
 export const getLoged = async () => {
-  const loged = await Axios.get(`${link}/user/Loged`);
-  return loged;
+  const loged = await Axios.get("/user/Loged");
+  if (loged.status === 200) {
+    return loged.data;
+  } else {
+    return false;
+  }
 };

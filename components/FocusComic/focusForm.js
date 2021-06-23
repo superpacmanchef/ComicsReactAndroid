@@ -5,91 +5,74 @@ import {
   removeCollection,
   insertPullList,
   removePullList,
-  getPull,
-} from "../apis/UserDatabaseApi";
-import { getMarvelData, getComicData } from "../apis/ComicApi";
-import {
-  processMarvelData,
-  processComicVineData,
-} from "../utils/comicDataProcessesing";
-import { comicTitleSplit } from "../utils/comicDataProcessesing";
-import { PullContext } from "../contexts/pullContext";
+} from "../../apis/UserDatabaseApi";
+import { comicTitleSplit } from "../../utils/comicDataProcessesing";
+import { useAppDispatch } from "../../redux/hooks";
+import { getPullListAsync } from "../../redux/reducers/pullList";
+import { getCollectionAsync } from "../../redux/reducers/collection";
 
 const FocusForm = (props) => {
-  const { focusType, comic, checkComic } = props;
+  const { focusType, comic } = props;
 
-  const [pull, updatePull] = useContext(PullContext);
-
-  //SPLIT MARVEL AND COMICVINE API PARTS
-  const processData = async () => {
-    if (comic.publisher === "MARVEL COMICS") {
-      const marvelData = await getMarvelData(comic.diamond_id, comic.title);
-      if (marvelData) {
-        return processMarvelData(marvelData);
-      } else {
-        return null;
-      }
-    } else {
-      const comicData = await getComicData(comic.diamond_id, comic.title);
-      if (comicData) {
-        return processComicVineData(comicData);
-      } else {
-        return null;
-      }
-    }
-  };
+  const dispatch = useAppDispatch();
 
   const insertCollectionHandler = async () => {
-    const res = await processData();
-    if (!res.description) {
-      res.description = comic.description;
+    if (!comic.issue_number) {
+      const [title, issue] = comicTitleSplit(comic.title);
+      comic.title = title;
+      comic.issue_number = issue === "" ? "" : "#" + issue;
     }
-    if (!res.store_date) {
-      res.store_date = comic.release_date;
-    }
-    res.creators = comic.creators;
-    res.diamond_id = comic.diamond_id;
-    res.publisher = comic.publisher;
-    const colRes = await insertCollection(res);
+    const colRes = await insertCollection(comic);
     if (colRes === true) {
       alert("Added to Collection");
-      checkComic();
+      dispatch(getCollectionAsync());
     } else {
       alert("Error");
     }
   };
   const removeCollectionHandler = async () => {
-    const res = await processData();
-    const colRes = await removeCollection(res);
+    if (!comic.issue_number) {
+      const [title, issue] = comicTitleSplit(comic.title);
+      comic.issue_number = issue === "" ? "" : "#" + issue;
+      comic.title = title;
+    }
+    const colRes = await removeCollection(comic);
     if (colRes === true) {
       alert("done");
-      checkComic();
+      dispatch(getCollectionAsync());
     } else {
       alert("error");
     }
   };
+
   const insertPullListHandler = async () => {
-    const [name] = comicTitleSplit(comic.title);
-    const pullRes = await insertPullList(name);
+    if (!comic.issue_number) {
+      const [title, issue] = comicTitleSplit(comic.title);
+      comic.issue_number = issue === "" ? "" : "#" + issue;
+      comic.title = title;
+    }
+    const pullRes = await insertPullList(
+      comic.title.replace(/THE /g, "").replace(/The /g, "").toUpperCase()
+    );
     if (pullRes) {
       alert(pullRes + " added to Pull.");
-      checkComic();
-      getPull().then((res) => {
-        updatePull(res);
-      });
+      dispatch(getPullListAsync());
     } else {
       alert("Error");
     }
   };
   const removePullListHandler = async () => {
-    const [name] = comicTitleSplit(comic.title);
-    const pullRes = await removePullList(name);
+    if (!comic.issue_number) {
+      const [title, issue] = comicTitleSplit(comic.title.toUppserCase());
+      comic.issue_number = issue === "" ? "" : "#" + issue;
+      comic.title = title;
+    }
+    const pullRes = await removePullList(
+      comic.title.replace(/THE /g, "").replace(/The /g, "").toUpperCase()
+    );
     if (pullRes) {
       alert("Removed from PullList");
-      checkComic();
-      getPull().then((res) => {
-        updatePull(res);
-      });
+      dispatch(getPullListAsync());
     } else {
       alert("Error");
     }

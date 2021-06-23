@@ -1,27 +1,53 @@
-import React, { useEffect, useContext } from "react";
-import { PullContext } from "../contexts/pullContext";
+import React, { useEffect, useContext, useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { getPull } from "../apis/UserDatabaseApi";
 import { FlatList } from "react-native-gesture-handler";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { getPullListAsync, getPullListState } from "../redux/reducers/pullList";
+import { Icon } from "react-native-elements";
+import { removePullList } from "../apis/UserDatabaseApi";
 
 const PullList = () => {
-  const [pull, updatePull] = useContext(PullContext);
+  const pull = useAppSelector(getPullListState);
+  const dispatch = useAppDispatch();
 
   //On page Load update pull
   useEffect(() => {
-    if (pull == false) {
-      getPull().then((res) => {
-        updatePull(res);
-      });
+    if (pull != []) {
+      dispatch(getPullListAsync());
     }
-  }, [pull]);
+  }, []);
+
+  const removeFromPull = async (title) => {
+    const pullRes = await removePullList(title);
+    if (pullRes) {
+      alert("Removed from PullList");
+      dispatch(getPullListAsync());
+    } else {
+      alert("Error");
+    }
+  };
 
   return (
     <View style={styles.container}>
       <FlatList
         data={pull}
         keyExtractor={(item) => item}
-        renderItem={({ item }) => <Text>{item}</Text>}
+        renderItem={({ item }) => (
+          <>
+            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+              <Text style={{ minWidth: "50%" }}>{item}</Text>
+              <Icon
+                name="delete-forever"
+                type="material"
+                size={30}
+                color="red"
+                onPress={() => {
+                  removeFromPull(item);
+                }}
+              ></Icon>
+            </View>
+          </>
+        )}
       />
     </View>
   );

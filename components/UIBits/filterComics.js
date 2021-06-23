@@ -1,6 +1,6 @@
-import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
-import DropDown from './dropDown';
+import React from "react";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import DropDown from "./dropDown";
 
 const FilterComics = (props) => {
   const {
@@ -26,7 +26,7 @@ const FilterComics = (props) => {
       <DropDown
         options={[0, 1, 2]}
         state={weekState}
-        labels={['Last Week Comics', 'This Week Comics', 'Next Week Comics']}
+        labels={["Last Week Comics", "This Week Comics", "Next Week Comics"]}
         updateState={updateWeekState}
       />
       <View>
@@ -36,7 +36,8 @@ const FilterComics = (props) => {
           onPress={() => {
             filterChangeHandler();
             setModalVisible(false);
-          }}>
+          }}
+        >
           <Text style={styles.buttonText}>Filter</Text>
         </TouchableOpacity>
       </View>
@@ -50,23 +51,23 @@ const styles = StyleSheet.create({
   filters: {
     marginHorizontal: 60,
     marginVertical: 200,
-    backgroundColor: 'rgb(45, 168, 90)',
+    backgroundColor: "rgb(45, 168, 90)",
 
     marginLeft: 30,
     marginRight: 30,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: '#000000',
+    borderColor: "#000000",
   },
   heading: {
-    alignSelf: 'center',
+    alignSelf: "center",
     fontSize: 30,
   },
   filterSubmit: {
-    backgroundColor: '#FFFF',
+    backgroundColor: "#FFFF",
     width: 100,
-    alignSelf: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    alignItems: "center",
     marginTop: 10,
     paddingTop: 15,
     paddingBottom: 15,
@@ -74,7 +75,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: 'rgb(0, 194, 128)',
+    borderColor: "rgb(0, 194, 128)",
   },
   buttonText: {
     fontSize: 20,

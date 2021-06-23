@@ -1,14 +1,16 @@
-import React, { useContext, useEffect } from "react";
-import { getLoged } from "../apis/UserDatabaseApi";
+import React, { useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
-import Login from "../pages/login";
-import Home from "../pages/Home";
-import FocusComic from "../pages/focusComic";
-import LogedContext from "../contexts/logedContext";
-import PullList from "../pages/pullList";
-import Collection from "../pages/collection";
+import Login from "../../pages/login";
+import Home from "../../pages/Home";
+import FocusComic from "../../pages/focusComic";
+import PullList from "../../pages/pullList";
+import Collection from "../../pages/collection";
+import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { getLogedAsync, getLogedState } from "../../redux/reducers/logedIn";
+import { getPullListAsync } from "../../redux/reducers/pullList";
+import { getCollectionAsync } from "../../redux/reducers/collection";
 
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
@@ -48,13 +50,14 @@ const PullStackScreen = () => {
 
 //////TODO: MAKE SO DONT HAVE TO HAVE 2 SEPERATE TAB NAVS FOR LOGED AND NOT LOGED
 const TabNav = () => {
-  const [loged, updateLoged] = useContext(LogedContext);
+  const loged = useAppSelector(getLogedState);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    getLoged().then((res) => {
-      updateLoged(res.data);
-    });
-  }, []);
+    dispatch(getLogedAsync());
+    dispatch(getPullListAsync());
+    dispatch(getCollectionAsync());
+  }, [loged]);
 
   // 2 Different Bottom Navs for Logged in and not.
   if (loged) {
@@ -75,7 +78,7 @@ const TabNav = () => {
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;
-          }
+          },
         })}
         tabBarOptions={{
           activeTintColor: "red",

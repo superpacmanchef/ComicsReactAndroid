@@ -1,23 +1,33 @@
 import React, { useContext, useState, useEffect } from "react";
 import { View, Text, Image, StyleSheet, RefreshControl } from "react-native";
-import { checkCollection, checkPullList } from "../apis/UserDatabaseApi";
-import LogedContext from "../contexts/logedContext";
+import {
+  checkCollection,
+  checkPullList,
+  getPull,
+} from "../apis/UserDatabaseApi";
 import { ScrollView } from "react-native-gesture-handler";
-import FocusForm from "../components/focusForm";
+import FocusForm from "../components/FocusComic/focusForm";
+import { useAppSelector } from "../redux/hooks";
+import { getPullListState } from "../redux/reducers/pullList";
+import { getLogedState } from "../redux/reducers/logedIn";
+import { getCollectionState } from "../redux/reducers/collection";
 
 const FocusComic = ({ route }) => {
   const { Comic, getPullHandler } = route.params;
 
-  const [loged, updateLoged] = useContext(LogedContext);
+  const loged = useAppSelector(getLogedState);
+  const pull = useAppSelector(getPullListState);
+  const collection = useAppSelector(getCollectionState);
   const [formType, updateFormType] = useState([]);
 
   //updates FormType Array [1/3 ,2/4]
   //odd for yes to comics is in collection / pull
   //even for no to comics is in collection / pull
-  const checkComic = async () => {
+  const checkComic = async (pull) => {
     if (loged) {
-      const collectionRes = await checkCollection(Comic);
-      const pullRes = await checkPullList(Comic);
+      // const collectionRes = await checkCollection(Comic);
+      const pullRes = await checkPullList(Comic, pull);
+      const collectionRes = await checkCollection(Comic, collection);
       updateFormType([collectionRes, pullRes]);
     } else {
       updateFormType([]);
@@ -25,8 +35,8 @@ const FocusComic = ({ route }) => {
   };
 
   useEffect(() => {
-    checkComic();
-  }, [Comic]);
+    checkComic(pull);
+  }, [Comic, pull, collection]);
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
