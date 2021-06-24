@@ -42,17 +42,16 @@ const FocusComic = ({ route }) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <>
-        <Text>{Comic.publisher}</Text>
+      <Text>{Comic.publisher}</Text>
         <Text>
           Store Date: {Comic.release_date ? Comic.release_date : Comic.store_date}
         </Text>
-        <Text>Diamond ID: {Comic.diamond_id}</Text>
-        <Text>ComicVine ID: {Comic.id}</Text>
-        <Text>{Comic.name}</Text>
+        {Comic.diamond_id ?<Text>Diamond ID: {Comic.diamond_id}</Text> : null}
+        {Comic.id ?<Text>ComicVine ID: {Comic.id}</Text> : null}
+       {Comic.name ? <Text>{Comic.name}</Text> : null}
         <Text>{Comic.description}</Text>
-        <Text>{Comic.creators}</Text>
-        <Text>{Comic.price}</Text>
-        <Text>{Comic.publisher}</Text>
+       {Comic.creators ?<Text>{Comic.creators}</Text> : null}
+        {Comic.price ? <Text>{Comic.price}</Text> : null}      
 
         {formType.length > 0 ? (
           <View style={styles.focusForm}>

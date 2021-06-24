@@ -75,6 +75,7 @@ const Collection = ({ navigation }) => {
   }
 
   return (
+    <>
     <View style={styles.container}>
       <Modal
         animationType="slide"
@@ -118,6 +119,7 @@ const Collection = ({ navigation }) => {
             placeholder="Cover Date YYYY-DD-MM"
             value={coverDate}
             keyboardType='numeric'
+            maxLength={10}
             onChange={(e) => {
               handleDateUpdate(e.nativeEvent.text);
             }}
@@ -139,6 +141,7 @@ const Collection = ({ navigation }) => {
         </View>
       </Modal>
       <Comics comics={collection} comicsPressHandler={comicsPressHandler} />
+    </View>
       <FAB
         icon={<Ionicons name={"ios-add"} size={30} />}
         placement="right"
@@ -147,15 +150,16 @@ const Collection = ({ navigation }) => {
           updateModalVisable(true);
         }}
       />
-    </View>
+      </>
   );
 };
 export default Collection;
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 100,
+    marginBottom: 10,
     marginHorizontal: 10,
+
   },
   filters: {
     marginHorizontal: 60,

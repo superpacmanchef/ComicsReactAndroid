@@ -127,9 +127,8 @@ const Home = ({ navigation }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 100,
+    marginBottom: 10,
     marginHorizontal: 10,
-    alignItems: "center",
   },
   heading: {
     fontSize: 20,

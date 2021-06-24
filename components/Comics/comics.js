@@ -136,7 +136,8 @@ const Comics = (props) => {
   };
 
   return (
-    <View>
+    <>
+    <View style={styles.screen}>
       <FlatList
         numColumns={2}
         data={comicsPage}
@@ -168,8 +169,10 @@ const Comics = (props) => {
         updatePageNoHandler={updatePageNoHandler}
         pageNo={pageNo}
         totalPages={totalPages}
+        style={styles.footer}
       />
     </View>
+      </>
   );
 };
 
@@ -198,6 +201,15 @@ const styles = StyleSheet.create({
     aspectRatio: 1.1,
     alignSelf: "flex-start",
   },
+  footer : {
+    flex: 0,
+    flexDirection: "row",
+    justifyContent: 'flex-end',
+    backgroundColor : 'rgba(100, 100, 100, 08)'
+  },
+  screen: {
+    height:" 100%"
+  }
 });
 
 export default Comics;

@@ -50,6 +50,7 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 1,
+    backgroundColor : 'rgba(0, 0, 0, 0)'
   },
   disabled: {
     backgroundColor: '#d8d8d8',
