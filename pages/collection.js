@@ -63,6 +63,17 @@ const Collection = ({ navigation }) => {
     dispatch(getCollectionAsync());
   };
 
+  const handleDateUpdate = (date) => {
+    if(date.length == 5 || date.length == 8 || coverDate.charAt(date.length) == "-")
+    {
+      date = date.substring(0 , date.length - 1);
+    }
+    else if(date.length == 4 || date.length == 7) {
+        date = date + "-"
+      }
+    updateCoverDate(date);
+  }
+
   return (
     <View style={styles.container}>
       <Modal
@@ -87,6 +98,7 @@ const Collection = ({ navigation }) => {
           <Input
             style={styles.textInput}
             placeholder="Issue Number"
+            keyboardType='numeric'
             value={issueNumber}
             onChange={(e) => {
               updateIssueNumber(e.nativeEvent.text);
@@ -99,15 +111,18 @@ const Collection = ({ navigation }) => {
             onChange={(e) => {
               updateComicTitle(e.nativeEvent.text);
             }}
+            maxLength={10}
           />
-          <Input
+            <Input
             style={styles.textInput}
-            placeholder="Cover Date"
+            placeholder="Cover Date YYYY-DD-MM"
             value={coverDate}
+            keyboardType='numeric'
             onChange={(e) => {
-              updateCoverDate(e.nativeEvent.text);
+              handleDateUpdate(e.nativeEvent.text);
             }}
           />
+  
 
           <View>
             <TouchableOpacity
