@@ -1,5 +1,5 @@
 import Axios from "axios";
-const link = "http://c44f2fd5f811.ngrok.io";
+const link = "http://c66ff2cd3bb5.ngrok.io";
 import { comicTitleSplit } from "../utils/comicDataProcessesing";
 
 //Gets users pullList and updates Pullist

@@ -11,6 +11,7 @@ import { useAppSelector } from "../redux/hooks";
 import { getPullListState } from "../redux/reducers/pullList";
 import { getLogedState } from "../redux/reducers/logedIn";
 import { getCollectionState } from "../redux/reducers/collection";
+import Comics from "../components/Comics/comics";
 
 const FocusComic = ({ route }) => {
   const { Comic, getPullHandler } = route.params;
@@ -43,11 +44,15 @@ const FocusComic = ({ route }) => {
       <>
         <Text>{Comic.publisher}</Text>
         <Text>
-          {Comic.release_date ? Comic.release_date : Comic.store_date}
+          Store Date: {Comic.release_date ? Comic.release_date : Comic.store_date}
         </Text>
+        <Text>Diamond ID: {Comic.diamond_id}</Text>
+        <Text>ComicVine ID: {Comic.id}</Text>
         <Text>{Comic.name}</Text>
         <Text>{Comic.description}</Text>
         <Text>{Comic.creators}</Text>
+        <Text>{Comic.price}</Text>
+        <Text>{Comic.publisher}</Text>
 
         {formType.length > 0 ? (
           <View style={styles.focusForm}>
