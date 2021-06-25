@@ -4,11 +4,11 @@ import { StyleSheet, View, Image, ImageBackground } from "react-native";
 import { Dimensions } from "react-native";
 import { comicTitleSplit } from "../../utils/comicDataProcessesing";
 import { getLogedState } from "../../redux/reducers/logedIn";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
+import { useAppSelector } from "../../redux/hooks";
 import PageNavigation from "./pageNavigation";
 import { getImages } from "../../apis/ComicApi";
 import { getPullListState } from "../../redux/reducers/pullList";
-
+import {Text} from 'react-native'
 const Comics = (props) => {
   const { comics, comicsPressHandler } = props;
   const [pulledArr, updatePulledArr] = useState([]);
@@ -144,6 +144,7 @@ const Comics = (props) => {
         keyExtractor={(item) => item.diamond_id}
         renderItem={({ item, index }) => (
           <View style={styles.comic}>
+            <Text style={{textAlign : "center"}}>{item.title} {item.issue_number}</Text>
             <TouchableOpacity
               activeOpacity={0.5}
               onPress={() => comicsPressHandler(item)}
@@ -180,7 +181,7 @@ const hieght = Dimensions.get("window").height;
 const styles = StyleSheet.create({
   comic: {
     alignItems: "center",
-    backgroundColor: "rgb(0, 194, 128)",
+    backgroundColor: "#3F51B5",
     borderRadius: 10,
     marginHorizontal: "5%",
     paddingVertical: "2%",
@@ -197,9 +198,9 @@ const styles = StyleSheet.create({
     aspectRatio: 9 / 14,
   },
   star: {
-    height: hieght * 0.03,
+    height: hieght * 0.04,
     aspectRatio: 1.1,
-    alignSelf: "flex-start",
+    alignSelf: "flex-end",
   },
   footer : {
     flex: 0,

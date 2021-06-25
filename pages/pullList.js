@@ -29,13 +29,14 @@ const PullList = () => {
 
   return (
     <View style={styles.container}>
+      <Text style={{fontSize : 20 , marginBottom : 30}}> Your Pull List</Text>
       <FlatList
         data={pull}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
           <>
-            <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
-              <Text style={{ minWidth: "50%" }}>{item}</Text>
+            <View style={{ flexDirection: "row", flexWrap: "wrap" , marginBottom : 15  }}>
+              <Text style={{ minWidth: "50%" , alignSelf : "center" }}>{item}</Text>
               <Icon
                 name="delete-forever"
                 type="material"
@@ -56,8 +57,11 @@ const PullList = () => {
 export default PullList;
 const styles = StyleSheet.create({
   container: {
-    marginTop: 100,
-    marginBottom: 100,
-    marginHorizontal: 10,
+    marginTop: 10,
+    marginHorizontal: 10, 
+    justifyContent : "center",
+    alignContent : "center",
+    alignItems : "center"
   },
+
 });

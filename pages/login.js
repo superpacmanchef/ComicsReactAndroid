@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: 250,
     borderWidth: 1,
-    backgroundColor: "rgb(0, 194, 128)",
+    backgroundColor: "#3F51B5",
     borderRadius: 30,
     borderWidth: 1,
     borderColor: "#fff",
@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e1e6e4",
     borderRadius: 10,
+    paddingHorizontal : 10
   },
   filterSubmit: {
     backgroundColor: "#FFFF",
@@ -97,7 +98,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "rgb(0, 194, 128)",
+    borderColor: "#3F51B5",
   },
   buttonText: {
     fontSize: 20,

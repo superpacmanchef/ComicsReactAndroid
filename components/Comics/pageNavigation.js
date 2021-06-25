@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: 'rgb(0, 194, 128)',
+    borderColor: '#3F51B5',
   },
   container: {
     alignItems: 'center',

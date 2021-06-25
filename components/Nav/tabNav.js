@@ -105,6 +105,8 @@ const TabNav = () => {
               iconName = "md-arrow-round-down";
             } else if (route.name === "Collection") {
               iconName = "md-filing";
+            } else if (route.name === "Login") {
+              iconName = "ios-log-in"
             }
 
             return <Ionicons name={iconName} size={size} color={color} />;

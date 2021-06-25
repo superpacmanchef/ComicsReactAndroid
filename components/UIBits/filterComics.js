@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
   filters: {
     marginHorizontal: 60,
     marginVertical: 200,
-    backgroundColor: "rgb(45, 168, 90)",
+    backgroundColor: "#3F51B5",
 
     marginLeft: 30,
     marginRight: 30,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     marginRight: 30,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "rgb(0, 194, 128)",
+    borderColor: "#3F51B5",
   },
   buttonText: {
     fontSize: 20,

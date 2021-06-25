@@ -149,6 +149,7 @@ const Collection = ({ navigation }) => {
         onPress={() => {
           updateModalVisable(true);
         }}
+        style={styles.fab}
       />
       </>
   );
@@ -162,16 +163,14 @@ const styles = StyleSheet.create({
 
   },
   filters: {
-    marginHorizontal: 60,
-    marginVertical: 200,
-    backgroundColor: "rgb(45, 168, 90)",
+    marginVertical: 100,
+    backgroundColor: "#3F51B5",
 
     marginLeft: 30,
     marginRight: 30,
     borderRadius: 10,
     borderWidth: 1,
     borderColor: "#000000",
-    paddingBottom: 100,
   },
   textInput: {
     backgroundColor: "#FFFFFF",
@@ -196,14 +195,18 @@ const styles = StyleSheet.create({
     marginRight: 30,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "rgb(0, 194, 128)",
+    borderColor: "#3F51B5",
+    marginBottom : 10
   },
   buttonText: {
     fontSize: 20,
   },
   heading: {
     alignSelf: "center",
-    fontSize: 30,
+    fontSize: 25,
     paddingVertical: 20,
   },
+  fab : {
+    marginBottom : 65
+  }
 });

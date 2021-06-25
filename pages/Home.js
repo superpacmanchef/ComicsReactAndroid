@@ -93,6 +93,7 @@ const Home = ({ navigation }) => {
   };
 
   return (
+    <>
     <View style={styles.container}>
       <Modal
         animationType="slide"
@@ -113,15 +114,19 @@ const Home = ({ navigation }) => {
         />
       </Modal>
       <Comics comicsPressHandler={comicsPressHandler} comics={filteredComics} />
+    </View>
       <FAB
         icon={<Ionicons name={"ios-funnel"} size={30} />}
+        style={{  
+          marginBottom : 65
+        }}
         placement="right"
         color="red"
         onPress={() => {
           setModalVisible(true);
         }}
       />
-    </View>
+      </>
   );
 };
 
