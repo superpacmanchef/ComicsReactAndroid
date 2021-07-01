@@ -1,49 +1,51 @@
-import React, { useEffect, useState } from "react";
-import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
-import { StyleSheet, View, Image, ImageBackground } from "react-native";
-import { Dimensions } from "react-native";
-import { comicTitleSplit } from "../../utils/comicDataProcessesing";
-import { getLogedState } from "../../redux/reducers/logedIn";
-import { useAppSelector } from "../../redux/hooks";
-import PageNavigation from "./pageNavigation";
-import { getImages } from "../../apis/ComicApi";
-import { getPullListState } from "../../redux/reducers/pullList";
-import {Text} from 'react-native'
+import React, { useEffect, useState } from 'react'
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler'
+import { StyleSheet, View, Image, ImageBackground } from 'react-native'
+import { Dimensions } from 'react-native'
+import { comicTitleSplit } from '../../utils/comicDataProcessesing'
+import { getLogedState } from '../../redux/reducers/logedIn'
+import { useAppSelector } from '../../redux/hooks'
+import PageNavigation from './pageNavigation'
+import { getImages } from '../../apis/ComicApi'
+import { getPullListState } from '../../redux/reducers/pullList'
+import { Text } from 'react-native'
+import { ActivityIndicator } from 'react-native'
 const Comics = (props) => {
-  const { comics, comicsPressHandler } = props;
-  const [pulledArr, updatePulledArr] = useState([]);
-  const [totalPages, updateTotalPages] = useState(0);
-  const [pageNo, updatePageNo] = useState(0);
-  const [comicsPage, updateComicsPage] = useState([]);
+  const { comics, comicsPressHandler } = props
+  const [pulledArr, updatePulledArr] = useState([])
+  const [totalPages, updateTotalPages] = useState(0)
+  const [pageNo, updatePageNo] = useState(0)
+  const [comicsPage, updateComicsPage] = useState([])
+  const [load, updateLoad] = useState(true)
 
-  const pull = useAppSelector(getPullListState);
-  const loged = useAppSelector(getLogedState);
+  const pull = useAppSelector(getPullListState)
+  const loged = useAppSelector(getLogedState)
 
   //On comics change update total pages and reset currrent page to 0
   useEffect(() => {
     if (comics != null) {
-      updateTotalPages(Math.ceil(comics.length / 10));
-      updatePageNo(0);
-      ComicsPageHandler(0);
+      updateTotalPages(Math.ceil(comics.length / 10))
+      updatePageNo(0)
+      ComicsPageHandler(0)
     }
-  }, [comics]);
+  }, [comics])
 
   useEffect(() => {
     if (comics != null) {
-      ComicsPageHandler(pageNo);
+      ComicsPageHandler(pageNo)
     }
-  }, [pageNo]);
+  }, [pageNo])
 
   useEffect(() => {
     if (loged) {
-      updatePulledArr(checkPull(comicsPage));
+      updatePulledArr(checkPull(comicsPage))
     }
-  }, [pull]);
+  }, [pull])
 
   //Check if comics are on pull list
   //Returns T/F array
   const checkPull = (comics) => {
-    const arr = [];
+    const arr = []
     if (loged && comics) {
       //Tests if pullList exists and is populated
       if (pull) {
@@ -52,165 +54,216 @@ const Comics = (props) => {
         comics.forEach((comic) => {
           for (let x = 0; x < pull.length; x++) {
             if (!comic.issue_number) {
-              const [title, issue] = comicTitleSplit(comic.title);
-              comic.title = title;
-              comic.issue_number = issue === "" ? "" : "#" + issue;
+              const [title, issue] = comicTitleSplit(comic.title)
+              comic.title = title
+              comic.issue_number = issue === '' ? '' : '#' + issue
             }
             const title = comic.title
-              .replace(/AND/g, "")
-              .replace(/THE/g, "")
-              .toUpperCase();
-            const strippedPull = pull[x].toUpperCase();
+              .replace(/AND/g, '')
+              .replace(/THE/g, '')
+              .toUpperCase()
+            const strippedPull = pull[x].toUpperCase()
             if (strippedPull === title) {
-              arr.push(true);
-              break;
+              arr.push(true)
+              break
             }
             if (x == pull.length - 1) {
-              arr.push(false);
+              arr.push(false)
             }
           }
-        });
+        })
       }
     }
-    return arr;
-  };
+    return arr
+  }
 
   //Sets comicPage to [] , Gets comicsPage and updates
   const ComicsPageHandler = async (pageNo) => {
-    updateComicsPage([]);
-    const comicsPage = await getComicsPage(pageNo);
-    updateComicsPage(comicsPage);
-  };
-
+    updateComicsPage([])
+    updateLoad(true)
+    const comicsPage = await getComicsPage(pageNo)
+    updateComicsPage(comicsPage)
+  }
   // returns subset of comics based on page with fetched cover
   const getComicsPage = (pageNo) => {
     return new Promise((resolve, reject) => {
-      if (comics != null) {
+      if (comics != null && comics.length != 0) {
         // Calc the correct number of comics of page
         // eg. only show 5 if there is only 5 left in array
-        let noPerPage = 10;
-        let left = comics.length - 10 * pageNo;
+        let noPerPage = 10
+        let left = comics.length - 10 * pageNo
         if (left < 10) {
-          noPerPage = left;
+          noPerPage = left
         }
 
         //splices the correct sub array of comics for the page
-        let comicsPage = comics.slice(pageNo * 10, pageNo * 10 + noPerPage);
+        let comicsPage = comics.slice(pageNo * 10, pageNo * 10 + noPerPage)
 
         if (!comicsPage.length) {
-          resolve([]);
+          resolve([])
         } else {
           // retrieve covers for all comics in page
           Promise.all(
             comicsPage.map((comic) => {
               if (comic.image) {
-                return comic;
+                return comic
               } else {
                 return getImages(comic).then((res) => {
-                  comic.image = res;
-                  return comic;
-                });
+                  comic.image = res
+                  return comic
+                })
               }
             })
           )
             .then((comicArr) => {
-              updatePulledArr(checkPull(comicArr));
-              resolve(comicArr);
+              updatePulledArr(checkPull(comicArr))
+              updateLoad(false)
+              resolve(comicArr)
             })
             .catch((err) => {
               // renders None found
-              reject([]);
-            });
+              reject([])
+            })
         }
+      } else {
+        updateLoad(false)
+        resolve([])
       }
-    });
-  };
+    })
+  }
 
   //Ensures Page Number is possible i.e -1
   const updatePageNoHandler = (pos) => {
     if (pageNo < 0 && pos > 0) {
     } else if (pageNo + parseInt(pos) >= totalPages) {
     } else {
-      updatePageNo(pageNo + parseInt(pos));
+      updatePageNo(pageNo + parseInt(pos))
     }
-  };
+  }
+
+  if (load) {
+    return (
+      <>
+        <View style={styles.altScreen}>
+          <ActivityIndicator
+            size={'large'}
+            style={{ marginVertical: '50%', flex: 1 }}
+          />
+          <PageNavigation
+            updatePageNoHandler={updatePageNoHandler}
+            pageNo={pageNo}
+            totalPages={totalPages}
+            style={styles.footer}
+          />
+        </View>
+      </>
+    )
+  }
+
+  if (comicsPage.length == 0 || comics == null) {
+    return (
+      <>
+        <View style={styles.altScreen}>
+          <Text style={{ fontSize: 30, flex: 1, marginVertical: '50%' }}>
+            None Found
+          </Text>
+          <PageNavigation
+            updatePageNoHandler={updatePageNoHandler}
+            pageNo={pageNo}
+            totalPages={totalPages}
+            style={styles.footer}
+          />
+        </View>
+      </>
+    )
+  }
 
   return (
     <>
-    <View style={styles.screen}>
-      <FlatList
-        numColumns={2}
-        data={comicsPage}
-        keyExtractor={(item) => item.diamond_id}
-        renderItem={({ item, index }) => (
-          <View style={styles.comic}>
-            <Text style={{textAlign : "center"}}>{item.title} {item.issue_number}</Text>
-            <TouchableOpacity
-              activeOpacity={0.5}
-              onPress={() => comicsPressHandler(item)}
-            >
-              <ImageBackground
-                style={styles.comicCover}
-                source={{ uri: item.image }}
+      <View style={styles.screen}>
+        <FlatList
+          numColumns={2}
+          data={comicsPage}
+          keyExtractor={(item) => item.diamond_id}
+          renderItem={({ item, index }) => (
+            <View style={styles.comic}>
+              <Text style={{ textAlign: 'center', fontSize: 15 }}>
+                {item.title} {item.issue_number}
+              </Text>
+              <TouchableOpacity
+                activeOpacity={0.5}
+                onPress={() => comicsPressHandler(item)}
               >
-                {pulledArr[index] ? (
-                  <Image
-                    style={styles.star}
-                    source={require("../../assets/dd.png")}
-                  />
-                ) : (
-                  <></>
-                )}
-              </ImageBackground>
-            </TouchableOpacity>
-          </View>
-        )}
-      />
-      <PageNavigation
-        updatePageNoHandler={updatePageNoHandler}
-        pageNo={pageNo}
-        totalPages={totalPages}
-        style={styles.footer}
-      />
-    </View>
-      </>
-  );
-};
+                <ImageBackground
+                  style={styles.comicCover}
+                  source={{ uri: item.image }}
+                >
+                  {pulledArr[index] ? (
+                    <Image
+                      style={styles.star}
+                      source={require('../../assets/dd.png')}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </ImageBackground>
+              </TouchableOpacity>
+            </View>
+          )}
+        />
+        <PageNavigation
+          updatePageNoHandler={updatePageNoHandler}
+          pageNo={pageNo}
+          totalPages={totalPages}
+          style={styles.footer}
+        />
+      </View>
+    </>
+  )
+}
 
-const hieght = Dimensions.get("window").height;
+const hieght = Dimensions.get('window').height
 const styles = StyleSheet.create({
   comic: {
-    alignItems: "center",
-    backgroundColor: "#3F51B5",
+    alignItems: 'center',
+    backgroundColor: '#3F51B5',
     borderRadius: 10,
-    marginHorizontal: "5%",
-    paddingVertical: "2%",
-    width: "45%",
-    marginLeft: "1.5%",
-    marginBottom: "5%",
+    marginHorizontal: '5%',
+    paddingVertical: '2%',
+    width: '45%',
+    marginLeft: '1.5%',
+    marginBottom: '5%',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.5,
     shadowRadius: 1,
-    elevation: 5,
+    elevation: 5
   },
   comicCover: {
     height: hieght * 0.3,
-    aspectRatio: 9 / 14,
+    aspectRatio: 9 / 14
   },
   star: {
     height: hieght * 0.04,
     aspectRatio: 1.1,
-    alignSelf: "flex-end",
+    alignSelf: 'flex-end'
   },
-  footer : {
+  footer: {
     flex: 0,
-    flexDirection: "row",
+    flexDirection: 'row',
     justifyContent: 'flex-end',
-    backgroundColor : 'rgba(100, 100, 100, 08)'
+    backgroundColor: 'rgba(100, 100, 100, 08)',
+    position: 'absolute',
+    alignSelf: 'flex-end'
   },
   screen: {
-    height:" 100%"
+    height: ' 100%'
+  },
+  altScreen: {
+    display: 'flex',
+    height: '100%',
+    alignItems: 'center',
+    justifyContent: 'center'
   }
-});
+})
 
-export default Comics;
+export default Comics

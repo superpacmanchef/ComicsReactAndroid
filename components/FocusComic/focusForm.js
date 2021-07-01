@@ -1,82 +1,82 @@
-import React, { useContext } from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import React, { useContext } from 'react'
+import { StyleSheet, Text, TouchableOpacity } from 'react-native'
 import {
   insertCollection,
   removeCollection,
   insertPullList,
-  removePullList,
-} from "../../apis/UserDatabaseApi";
-import { comicTitleSplit } from "../../utils/comicDataProcessesing";
-import { useAppDispatch } from "../../redux/hooks";
-import { getPullListAsync } from "../../redux/reducers/pullList";
-import { getCollectionAsync } from "../../redux/reducers/collection";
+  removePullList
+} from '../../apis/UserDatabaseApi'
+import { comicTitleSplit } from '../../utils/comicDataProcessesing'
+import { useAppDispatch } from '../../redux/hooks'
+import { getPullListAsync } from '../../redux/reducers/pullList'
+import { getCollectionAsync } from '../../redux/reducers/collection'
 
 const FocusForm = (props) => {
-  const { focusType, comic } = props;
+  const { focusType, comic } = props
 
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
 
   const insertCollectionHandler = async () => {
     if (!comic.issue_number) {
-      const [title, issue] = comicTitleSplit(comic.title);
-      comic.title = title;
-      comic.issue_number = issue === "" ? "" : "#" + issue;
+      const [title, issue] = comicTitleSplit(comic.title)
+      comic.title = title
+      comic.issue_number = issue === '' ? '' : '#' + issue
     }
-    const colRes = await insertCollection(comic);
+    const colRes = await insertCollection(comic)
     if (colRes === true) {
-      alert("Added to Collection");
-      dispatch(getCollectionAsync());
+      alert(comic.title + ' Added to Collection')
+      dispatch(getCollectionAsync())
     } else {
-      alert("Error");
+      alert('error')
     }
-  };
+  }
   const removeCollectionHandler = async () => {
     if (!comic.issue_number) {
-      const [title, issue] = comicTitleSplit(comic.title);
-      comic.issue_number = issue === "" ? "" : "#" + issue;
-      comic.title = title;
+      const [title, issue] = comicTitleSplit(comic.title)
+      comic.issue_number = issue === '' ? '' : '#' + issue
+      comic.title = title
     }
-    const colRes = await removeCollection(comic);
+    const colRes = await removeCollection(comic)
     if (colRes === true) {
-      alert("done");
-      dispatch(getCollectionAsync());
+      alert(comic.title + ' Removed from Collection')
+      dispatch(getCollectionAsync())
     } else {
-      alert("error");
+      alert('error')
     }
-  };
+  }
 
   const insertPullListHandler = async () => {
     if (!comic.issue_number) {
-      const [title, issue] = comicTitleSplit(comic.title);
-      comic.issue_number = issue === "" ? "" : "#" + issue;
-      comic.title = title;
+      const [title, issue] = comicTitleSplit(comic.title)
+      comic.issue_number = issue === '' ? '' : '#' + issue
+      comic.title = title
     }
     const pullRes = await insertPullList(
-      comic.title.replace(/THE /g, "").replace(/The /g, "").toUpperCase()
-    );
+      comic.title.replace(/THE /g, '').replace(/The /g, '').toUpperCase()
+    )
     if (pullRes) {
-      alert(pullRes + " added to Pull.");
-      dispatch(getPullListAsync());
+      alert(pullRes + ' Added to Pull List')
+      dispatch(getPullListAsync())
     } else {
-      alert("Error");
+      alert('Error')
     }
-  };
+  }
   const removePullListHandler = async () => {
     if (!comic.issue_number) {
-      const [title, issue] = comicTitleSplit(comic.title.toUppserCase());
-      comic.issue_number = issue === "" ? "" : "#" + issue;
-      comic.title = title;
+      const [title, issue] = comicTitleSplit(comic.title.toUppserCase())
+      comic.issue_number = issue === '' ? '' : '#' + issue
+      comic.title = title
     }
     const pullRes = await removePullList(
-      comic.title.replace(/THE /g, "").replace(/The /g, "").toUpperCase()
-    );
+      comic.title.replace(/THE /g, '').replace(/The /g, '').toUpperCase()
+    )
     if (pullRes) {
-      alert("Removed from PullList");
-      dispatch(getPullListAsync());
+      alert(pullRes + ' Removed from Pull List')
+      dispatch(getPullListAsync())
     } else {
-      alert("Error");
+      alert('Error')
     }
-  };
+  }
 
   if (focusType == 1) {
     return (
@@ -84,62 +84,62 @@ const FocusForm = (props) => {
       <TouchableOpacity
         style={styles.submit}
         onPress={() => {
-          insertCollectionHandler();
+          insertCollectionHandler()
         }}
       >
         <Text style={styles.buttonText}>Insert into Collection</Text>
       </TouchableOpacity>
-    );
+    )
   } else if (focusType == 3) {
     //REMOVE COLLECTION BUTTON
     return (
       <TouchableOpacity
         style={styles.submit}
         onPress={() => {
-          removeCollectionHandler();
+          removeCollectionHandler()
         }}
       >
         <Text style={styles.buttonText}>Remove from Collection</Text>
       </TouchableOpacity>
-    );
+    )
   } else if (focusType == 2) {
     //INSERT PULL LIST BUTTON
     return (
       <TouchableOpacity
         style={styles.submit}
         onPress={() => {
-          insertPullListHandler();
+          insertPullListHandler()
         }}
       >
         <Text style={styles.buttonText}>Insert into Pull List</Text>
       </TouchableOpacity>
-    );
+    )
   } else if (focusType == 4) {
     //REMOVE PULL LIST BUTTON
     return (
       <TouchableOpacity
         style={styles.submit}
         onPress={() => {
-          removePullListHandler();
+          removePullListHandler()
         }}
       >
         <Text style={styles.buttonText}>Remove from Pull List</Text>
       </TouchableOpacity>
-    );
+    )
   } else {
-    return null;
+    return null
   }
-};
+}
 
-export default FocusForm;
+export default FocusForm
 
 const styles = StyleSheet.create({
   submit: {
-    backgroundColor: "#FFFF",
+    backgroundColor: '#FFFF',
     width: 100,
-    alignSelf: "center",
-    alignItems: "center",
-    textAlign: "center",
+    alignSelf: 'center',
+    alignItems: 'center',
+    textAlign: 'center',
     marginTop: 10,
     paddingTop: 15,
     paddingBottom: 15,
@@ -147,10 +147,10 @@ const styles = StyleSheet.create({
     marginRight: 30,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "#3F51B5",
+    borderColor: '#3F51B5'
   },
   buttonText: {
     fontSize: 15,
-    textAlign: "center",
-  },
-});
+    textAlign: 'center'
+  }
+})

@@ -1,49 +1,70 @@
-import React, { useEffect, useContext, useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { FlatList } from "react-native-gesture-handler";
-import { useAppDispatch, useAppSelector } from "../redux/hooks";
-import { getPullListAsync, getPullListState } from "../redux/reducers/pullList";
-import { Icon } from "react-native-elements";
-import { removePullList } from "../apis/UserDatabaseApi";
+import React, { useEffect, useContext, useState } from 'react'
+import { View, Text, StyleSheet } from 'react-native'
+import { FlatList } from 'react-native-gesture-handler'
+import { useAppDispatch, useAppSelector } from '../redux/hooks'
+import { getPullListAsync, getPullListState } from '../redux/reducers/pullList'
+import { Icon } from 'react-native-elements'
+import { removePullList } from '../apis/UserDatabaseApi'
 
 const PullList = () => {
-  const pull = useAppSelector(getPullListState);
-  const dispatch = useAppDispatch();
+  const pull = useAppSelector(getPullListState)
+  const dispatch = useAppDispatch()
 
   //On page Load update pull
   useEffect(() => {
     if (pull != []) {
-      dispatch(getPullListAsync());
+      dispatch(getPullListAsync())
     }
-  }, []);
+  }, [])
 
   const removeFromPull = async (title) => {
-    const pullRes = await removePullList(title);
+    const pullRes = await removePullList(title)
     if (pullRes) {
-      alert("Removed from PullList");
-      dispatch(getPullListAsync());
+      alert('Removed from PullList')
+      dispatch(getPullListAsync())
     } else {
-      alert("Error");
+      alert('Error')
     }
-  };
+  }
+  if (pull.length === 0) {
+    return (
+      <>
+        <View style={styles.altScreen}>
+          <Text style={{ fontSize: 30, alignSelf: 'center' }}>
+            No Comics in Pull List
+          </Text>
+        </View>
+      </>
+    )
+  }
 
   return (
     <View style={styles.container}>
-      <Text style={{fontSize : 20 , marginBottom : 30}}> Your Pull List</Text>
+      <Text style={{ fontSize: 40, marginBottom: 30 }}> Your Pull List</Text>
       <FlatList
         data={pull}
         keyExtractor={(item) => item}
         renderItem={({ item }) => (
           <>
-            <View style={{ flexDirection: "row", flexWrap: "wrap" , marginBottom : 15  }}>
-              <Text style={{ minWidth: "50%" , alignSelf : "center" }}>{item}</Text>
+            <View
+              style={{
+                flexDirection: 'row',
+                flexWrap: 'wrap',
+                marginBottom: 15
+              }}
+            >
+              <Text
+                style={{ minWidth: '50%', alignSelf: 'center', fontSize: 20 }}
+              >
+                {item}
+              </Text>
               <Icon
                 name="delete-forever"
                 type="material"
                 size={30}
                 color="red"
                 onPress={() => {
-                  removeFromPull(item);
+                  removeFromPull(item)
                 }}
               ></Icon>
             </View>
@@ -51,17 +72,23 @@ const PullList = () => {
         )}
       />
     </View>
-  );
-};
+  )
+}
 
-export default PullList;
+export default PullList
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
-    marginHorizontal: 10, 
-    justifyContent : "center",
-    alignContent : "center",
-    alignItems : "center"
+    marginHorizontal: 10,
+    justifyContent: 'center',
+    alignContent: 'center',
+    alignItems: 'center'
   },
-
-});
+  altScreen: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'column'
+  }
+})

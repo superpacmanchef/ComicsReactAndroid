@@ -1,34 +1,34 @@
-import Axios from "axios";
-const link = "http://c66ff2cd3bb5.ngrok.io";
+import Axios from 'axios'
+const link = 'http://a124a0c53183.ngrok.io'
 
 /////////////COMICVINE ... MARVELAPI ////////////
 //Takes in indivial comic and returns Cover
 export const getImages = async (comic) => {
-  if (comic.publisher === "MARVEL COMICS") {
+  if (comic.publisher === 'MARVEL COMICS') {
     const res = await Axios.post(`${link}/api/MarvelImg`, {
-      comicID: comic.diamond_id,
-    });
+      comicID: comic.diamond_id
+    })
     if (res.data.data.results.length) {
       try {
         return (
           res.data.data.results[0].images[0].path +
-          "." +
+          '.' +
           res.data.data.results[0].images[0].extension
-        );
+        )
       } catch (e) {
-        console.error(e);
-        return "http://placecorgi.com/416/640";
+        console.error(e)
+        return 'http://placecorgi.com/416/640'
       }
     } else {
-      return "http://placecorgi.com/416/640";
+      return 'http://placecorgi.com/416/640'
     }
   } else {
     const res = await Axios.post(`${link}/api/ComicImg`, {
-      comicName: comic.title,
-    });
-    return res.data[0].image.small_url;
+      comicName: comic.title
+    })
+    return res.data[0].image.small_url
   }
-};
+}
 export const getComicData = async (
   comicID,
   comicName,
@@ -39,38 +39,38 @@ export const getComicData = async (
     comicName: comicName,
     comicID: comicID,
     comicDate: comicDate,
-    comicTitle: comicTitle,
-  });
+    comicTitle: comicTitle
+  })
   if (comicRes.status === 200) {
-    return comicRes.data.results[0];
+    return comicRes.data.results[0]
   } else {
-    return false;
+    return false
   }
-};
+}
 export const getMarvelData = async (comicID) => {
   const marvelRes = await Axios.post(`${link}/api/MarvelQuery`, {
-    comicID: comicID,
-  });
+    comicID: comicID
+  })
   if (marvelRes.status === 200) {
-    return marvelRes.data.data.results[0];
+    return marvelRes.data.data.results[0]
   } else {
-    return false;
+    return false
   }
-};
+}
 
 /////////////SHORTBOXEDAPI////////////
 //Returns Selected Weeks Comic Array from API
 export const getComics = (week) => {
   return Axios.post(`${link}/api/NewComics`, {
-    week,
+    week
   }).then((comicsResponse) => {
-    let comics = comicsResponse.data.comics;
+    let comics = comicsResponse.data.comics
     if (comics !== undefined) {
-      return comics;
+      return comics
     } else {
-      return [];
+      return []
     }
-  });
-};
+  })
+}
 
-export default { getComics, getImages, getComicData, getMarvelData };
+export default { getComics, getImages, getComicData, getMarvelData }
