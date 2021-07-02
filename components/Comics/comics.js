@@ -100,6 +100,7 @@ const Comics = (props) => {
         let comicsPage = comics.slice(pageNo * 10, pageNo * 10 + noPerPage)
 
         if (!comicsPage.length) {
+          updateLoad(false)
           resolve([])
         } else {
           // retrieve covers for all comics in page
@@ -122,6 +123,7 @@ const Comics = (props) => {
             })
             .catch((err) => {
               // renders None found
+              updateLoad(false)
               reject([])
             })
         }

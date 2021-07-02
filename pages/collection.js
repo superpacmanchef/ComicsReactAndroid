@@ -42,7 +42,7 @@ const Collection = ({ navigation }) => {
     if (res !== true) {
       dispatch(getCollectionAsync)
     } else {
-      alert('error')
+      alert('An error occured')
     }
   }
 
@@ -67,6 +67,7 @@ const Collection = ({ navigation }) => {
     }
   }
 
+  //Ensures correct date format - YYYY-MM-DD
   const handleDateUpdate = (date) => {
     if (
       date.length == 5 ||

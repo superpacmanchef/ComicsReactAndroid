@@ -27,7 +27,7 @@ const FocusForm = (props) => {
       alert(comic.title + ' Added to Collection')
       dispatch(getCollectionAsync())
     } else {
-      alert('error')
+      alert('An error occured')
     }
   }
   const removeCollectionHandler = async () => {
@@ -41,7 +41,7 @@ const FocusForm = (props) => {
       alert(comic.title + ' Removed from Collection')
       dispatch(getCollectionAsync())
     } else {
-      alert('error')
+      alert('An error occured')
     }
   }
 
@@ -58,7 +58,7 @@ const FocusForm = (props) => {
       alert(pullRes + ' Added to Pull List')
       dispatch(getPullListAsync())
     } else {
-      alert('Error')
+      alert('An error occured')
     }
   }
   const removePullListHandler = async () => {
@@ -74,7 +74,7 @@ const FocusForm = (props) => {
       alert(pullRes + ' Removed from Pull List')
       dispatch(getPullListAsync())
     } else {
-      alert('Error')
+      alert('An error occured')
     }
   }
 

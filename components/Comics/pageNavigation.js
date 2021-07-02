@@ -36,7 +36,6 @@ const PageNavigation = (props) => {
 }
 
 export default PageNavigation
-
 const styles = StyleSheet.create({
   filterSubmit: {
     backgroundColor: '#FFFF',

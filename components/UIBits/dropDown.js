@@ -1,8 +1,8 @@
-import React from "react";
-import { Picker, StyleSheet } from "react-native";
+import React from 'react'
+import { Picker, StyleSheet } from 'react-native'
 
 const DropDown = (props) => {
-  const { options, state, labels, updateState } = props;
+  const { options, state, labels, updateState } = props
   return (
     <Picker
       style={styles.dropDown}
@@ -18,22 +18,21 @@ const DropDown = (props) => {
             label={labels[index]}
             value={option}
           />
-        );
+        )
       })}
     </Picker>
-  );
-};
+  )
+}
 
-export default DropDown;
-
+export default DropDown
 const styles = StyleSheet.create({
   dropDown: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: '#FFFFFF',
     marginHorizontal: 20,
-    alignContent: "center",
-    alignItems: "center",
-    justifyContent: "center",
-    borderColor: "#fff",
-    borderWidth: 1,
-  },
-});
+    alignContent: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#fff',
+    borderWidth: 1
+  }
+})

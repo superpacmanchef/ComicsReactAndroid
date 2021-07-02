@@ -12,8 +12,6 @@ import HTML from 'react-native-render-html'
 const FocusComic = ({ route }) => {
   const { Comic, getPullHandler } = route.params
 
-  console.log(Comic)
-
   const loged = useAppSelector(getLogedState)
   const pull = useAppSelector(getPullListState)
   const collection = useAppSelector(getCollectionState)
@@ -24,7 +22,6 @@ const FocusComic = ({ route }) => {
   //even for no to comics is in collection / pull
   const checkComic = async (pull) => {
     if (loged) {
-      // const collectionRes = await checkCollection(Comic);
       const pullRes = await checkPullList(Comic, pull)
       const collectionRes = await checkCollection(Comic, collection)
       updateFormType([collectionRes, pullRes])

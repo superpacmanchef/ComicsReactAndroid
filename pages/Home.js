@@ -58,13 +58,10 @@ const Home = ({ navigation }) => {
     }
   }, [loged])
 
-  //If week hasnt chnaged from last invokation
-  //Get and update new filteredComics and update TotalPages accordingly
-  //Else Get desired weeks comics, update weekState, filter out variants update all comics
-  //filter , order and update filteredComics and update TotalPages accordingly
   const filterChangeHandler = async () => {
     //Just publsiher changes
     if (lastWeekState && lastWeekState === weekState) {
+      //filter allComics by publisher
       const filteredComicPublisher = filterComicPublisher(
         allComics,
         publisherState,
@@ -72,11 +69,15 @@ const Home = ({ navigation }) => {
       )
       updateFilteredComics(filteredComicPublisher)
     } else {
-      // Week and/or publisher changed
+      // Get weeks comics
       const weekComics = await getComics(weekState)
       updateLastWeekState(weekState)
+
+      // Filter varient covers
       const varientFilteredComics = filterComicVarients(weekComics)
       updateAllComics(varientFilteredComics)
+
+      //Filter based on publisher
       const filteredComics = filterComicPublisher(
         varientFilteredComics,
         publisherState,
@@ -135,6 +136,7 @@ const Home = ({ navigation }) => {
   )
 }
 
+export default Home
 const styles = StyleSheet.create({
   container: {
     marginBottom: 10,
@@ -149,4 +151,3 @@ const styles = StyleSheet.create({
     width: 50
   }
 })
-export default Home

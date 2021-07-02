@@ -1,5 +1,5 @@
 import Axios from 'axios'
-const link = 'http://a124a0c53183.ngrok.io'
+const link = 'http://20e4a2642297.ngrok.io'
 import { comicTitleSplit } from '../utils/comicDataProcessesing'
 
 //Gets users pullList and updates Pullist
@@ -15,6 +15,8 @@ export const getCollection = async () => {
   const collectionRes = await Axios.post(`${link}/user/getCollection`)
   if (collectionRes.status === 200) {
     return collectionRes.data
+  } else {
+    return null
   }
 }
 export const getUsername = async () => {
@@ -95,6 +97,8 @@ export const removeCollection = async (res) => {
   })
   if (colRes.status === 200) {
     return colRes.data
+  } else {
+    return false
   }
 }
 
@@ -102,6 +106,8 @@ export const insertPullList = async (name) => {
   const res = await Axios.post(`${link}/user/AddPull`, { comicName: name })
   if (res.status === 200) {
     return res.data.comic
+  } else {
+    return false
   }
 }
 export const removePullList = async (comicName) => {
@@ -120,10 +126,10 @@ export const login = (username, password) => {
     username,
     password
   }).then((loged) => {
-    if (!loged.data) {
-      return 'false'
+    if (loged.data) {
+      return true
     } else {
-      return 'true'
+      return false
     }
   })
 }

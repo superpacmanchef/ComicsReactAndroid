@@ -10,7 +10,6 @@ const PullList = () => {
   const pull = useAppSelector(getPullListState)
   const dispatch = useAppDispatch()
 
-  //On page Load update pull
   useEffect(() => {
     if (pull != []) {
       dispatch(getPullListAsync())
@@ -23,9 +22,10 @@ const PullList = () => {
       alert('Removed from PullList')
       dispatch(getPullListAsync())
     } else {
-      alert('Error')
+      alert('Am error occured')
     }
   }
+
   if (pull.length === 0) {
     return (
       <>

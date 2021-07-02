@@ -24,7 +24,7 @@ const Login = () => {
     if (checkLoged) {
       dispatch(logedTrue())
     } else {
-      alert('NAHHH FUCKED IT')
+      alert('Username or Password was incorrect')
     }
   }
 

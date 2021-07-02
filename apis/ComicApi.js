@@ -1,5 +1,5 @@
 import Axios from 'axios'
-const link = 'http://a124a0c53183.ngrok.io'
+const link = 'http://20e4a2642297.ngrok.io'
 
 /////////////COMICVINE ... MARVELAPI ////////////
 //Takes in indivial comic and returns Cover
@@ -8,15 +8,10 @@ export const getImages = async (comic) => {
     const res = await Axios.post(`${link}/api/MarvelImg`, {
       comicID: comic.diamond_id
     })
-    if (res.data.data.results.length) {
+    if (res) {
       try {
-        return (
-          res.data.data.results[0].images[0].path +
-          '.' +
-          res.data.data.results[0].images[0].extension
-        )
+        return res.data.images[0].path + '.' + res.data.images[0].extension
       } catch (e) {
-        console.error(e)
         return 'http://placecorgi.com/416/640'
       }
     } else {
@@ -63,14 +58,19 @@ export const getMarvelData = async (comicID) => {
 export const getComics = (week) => {
   return Axios.post(`${link}/api/NewComics`, {
     week
-  }).then((comicsResponse) => {
-    let comics = comicsResponse.data.comics
-    if (comics !== undefined) {
-      return comics
-    } else {
-      return []
-    }
   })
+    .then((comicsResponse) => {
+      let comics = comicsResponse.data.comics
+      if (comics !== undefined) {
+        return comics
+      } else {
+        return []
+      }
+    })
+    .catch((err) => {
+      console.log(err)
+      return []
+    })
 }
 
 export default { getComics, getImages, getComicData, getMarvelData }
