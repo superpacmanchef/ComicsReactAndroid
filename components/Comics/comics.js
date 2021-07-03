@@ -149,6 +149,7 @@ const Comics = (props) => {
         <View style={styles.altScreen}>
           <ActivityIndicator
             size={'large'}
+            color="#0000ff"
             style={{ marginVertical: '50%', flex: 1 }}
           />
           <PageNavigation
@@ -160,9 +161,7 @@ const Comics = (props) => {
         </View>
       </>
     )
-  }
-
-  if (comicsPage.length == 0 || comics == null) {
+  } else if (comicsPage.length == 0 || comics == null) {
     return (
       <>
         <View style={styles.altScreen}>
@@ -178,50 +177,50 @@ const Comics = (props) => {
         </View>
       </>
     )
-  }
-
-  return (
-    <>
-      <View style={styles.screen}>
-        <FlatList
-          numColumns={2}
-          data={comicsPage}
-          keyExtractor={(item) => item.diamond_id}
-          renderItem={({ item, index }) => (
-            <View style={styles.comic}>
-              <Text style={{ textAlign: 'center', fontSize: 15 }}>
-                {item.title} {item.issue_number}
-              </Text>
-              <TouchableOpacity
-                activeOpacity={0.5}
-                onPress={() => comicsPressHandler(item)}
-              >
-                <ImageBackground
-                  style={styles.comicCover}
-                  source={{ uri: item.image }}
+  } else {
+    return (
+      <>
+        <View style={styles.screen}>
+          <FlatList
+            numColumns={2}
+            data={comicsPage}
+            keyExtractor={(item) => item.diamond_id}
+            renderItem={({ item, index }) => (
+              <View style={styles.comic}>
+                <Text style={{ textAlign: 'center', fontSize: 15 }}>
+                  {item.title} {item.issue_number}
+                </Text>
+                <TouchableOpacity
+                  activeOpacity={0.5}
+                  onPress={() => comicsPressHandler(item)}
                 >
-                  {pulledArr[index] ? (
-                    <Image
-                      style={styles.star}
-                      source={require('../../assets/dd.png')}
-                    />
-                  ) : (
-                    <></>
-                  )}
-                </ImageBackground>
-              </TouchableOpacity>
-            </View>
-          )}
-        />
-        <PageNavigation
-          updatePageNoHandler={updatePageNoHandler}
-          pageNo={pageNo}
-          totalPages={totalPages}
-          style={styles.footer}
-        />
-      </View>
-    </>
-  )
+                  <ImageBackground
+                    style={styles.comicCover}
+                    source={{ uri: item.image }}
+                  >
+                    {pulledArr[index] ? (
+                      <Image
+                        style={styles.star}
+                        source={require('../../assets/dd.png')}
+                      />
+                    ) : (
+                      <></>
+                    )}
+                  </ImageBackground>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+          <PageNavigation
+            updatePageNoHandler={updatePageNoHandler}
+            pageNo={pageNo}
+            totalPages={totalPages}
+            style={styles.footer}
+          />
+        </View>
+      </>
+    )
+  }
 }
 
 const hieght = Dimensions.get('window').height
