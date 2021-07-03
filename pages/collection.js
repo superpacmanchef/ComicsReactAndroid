@@ -149,7 +149,7 @@ const Collection = ({ navigation }) => {
         <Comics comics={collection} comicsPressHandler={comicsPressHandler} />
       </View>
       <FAB
-        icon={<Ionicons name={'ios-add'} size={30} />}
+        icon={<Ionicons name={'ios-add'} size={25} />}
         placement="right"
         color="red"
         onPress={() => {

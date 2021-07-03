@@ -5,7 +5,7 @@ const DropDown = (props) => {
   const { options, state, labels, updateState } = props
   return (
     <Picker
-      style={styles.dropDown}
+      style={[styles.dropDown, (backgroundColor = 'white')]}
       mode="dropdown"
       onValueChange={(itemValue) => updateState(itemValue)}
       selectedValue={state}

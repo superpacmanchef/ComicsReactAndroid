@@ -15,20 +15,25 @@ const FilterComics = (props) => {
   return (
     <View style={styles.filters} id="filters">
       <Text style={styles.heading}>Publisher</Text>
-      <DropDown
-        options={publishers}
-        state={publisherState}
-        labels={publishers}
-        updateState={updatePublisherState}
-      />
+      <View style={{ backgroundColor: 'white', marginHorizontal: '4%' }}>
+        <DropDown
+          options={publishers}
+          state={publisherState}
+          labels={publishers}
+          updateState={updatePublisherState}
+        />
+      </View>
 
       <Text style={styles.heading}>Weeks</Text>
-      <DropDown
-        options={[0, 1]}
-        state={weekState}
-        labels={['Last Week Comics', 'This Week Comics']}
-        updateState={updateWeekState}
-      />
+      <View style={{ backgroundColor: 'white', marginHorizontal: '4%' }}>
+        <DropDown
+          options={[0, 1]}
+          state={weekState}
+          labels={['Last Week Comics', 'This Week Comics']}
+          updateState={updateWeekState}
+        />
+      </View>
+
       <View>
         <TouchableOpacity
           style={styles.filterSubmit}

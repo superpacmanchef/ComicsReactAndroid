@@ -122,7 +122,7 @@ const Home = ({ navigation }) => {
         />
       </View>
       <FAB
-        icon={<Ionicons name={'ios-funnel'} size={30} />}
+        icon={<Ionicons name={'ios-funnel'} size={25} />}
         style={{
           marginBottom: 65
         }}

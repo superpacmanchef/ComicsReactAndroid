@@ -76,9 +76,9 @@ const TabNav = () => {
             } else if (route.name === 'Register') {
               iconName = focused ? 'ios-list-box' : 'ios-list'
             } else if (route.name === 'Pull List') {
-              iconName = 'md-arrow-round-down'
+              iconName = 'arrow-down-outline'
             } else if (route.name === 'Collection') {
-              iconName = 'md-filing'
+              iconName = 'albums-outline'
             }
 
             return <Ionicons name={iconName} size={size} color={color} />
@@ -108,7 +108,7 @@ const TabNav = () => {
             } else if (route.name === 'Pull List') {
               iconName = 'md-arrow-round-down'
             } else if (route.name === 'Collection') {
-              iconName = 'md-filing'
+              iconName = 'mdi-arrow-down '
             } else if (route.name === 'Login') {
               iconName = 'ios-log-in'
             }
