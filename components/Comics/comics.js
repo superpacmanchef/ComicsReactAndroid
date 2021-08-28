@@ -34,6 +34,7 @@ const Comics = (props) => {
     }
   }, [comics]);
 
+  //On page change update updates ComicsPage
   useEffect(() => {
     if (comics != null) {
       ComicsPageHandler(pageNo);
@@ -44,7 +45,7 @@ const Comics = (props) => {
     if (loged) {
       updatePulledArr(checkPull(comicsPage));
     }
-  }, [pull]);
+  }, [pull, comics]);
 
   //Check if comics are on pull list
   //Returns T/F array
@@ -123,7 +124,7 @@ const Comics = (props) => {
             .then((comicArr) => {
               updatePulledArr(checkPull(comicArr));
               updateLoad(false);
-              resolve(comicArr);
+              resolve();
             })
             .catch((err) => {
               // renders None found
