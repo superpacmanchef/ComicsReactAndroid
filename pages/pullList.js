@@ -1,46 +1,49 @@
-import React, { useEffect, useContext, useState } from 'react'
-import { View, Text, StyleSheet } from 'react-native'
-import { FlatList } from 'react-native-gesture-handler'
-import { useAppDispatch, useAppSelector } from '../redux/hooks'
-import { getPullListAsync, getPullListState } from '../redux/reducers/pullList'
-import { Icon } from 'react-native-elements'
-import { removePullList } from '../apis/UserDatabaseApi'
+import React, { useEffect, useContext, useState } from "react";
+import { View, Text, StyleSheet } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
+import { getPullListAsync, getPullListState } from "../redux/reducers/pullList";
+import { Icon } from "react-native-elements";
+import { removePullList } from "../apis/UserDatabaseApi";
+import { Dimensions } from "react-native";
+const { height } = Dimensions.get("window");
 
 const PullList = () => {
-  const pull = useAppSelector(getPullListState)
-  const dispatch = useAppDispatch()
+  const pull = useAppSelector(getPullListState);
+  const fontSize = (5 * height) / 200;
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (pull != []) {
-      dispatch(getPullListAsync())
+      dispatch(getPullListAsync());
     }
-  }, [])
+  }, []);
 
   const removeFromPull = async (title) => {
-    const pullRes = await removePullList(title)
+    const pullRes = await removePullList(title);
     if (pullRes) {
-      alert('Removed from PullList')
-      dispatch(getPullListAsync())
+      alert("Removed from PullList");
+      dispatch(getPullListAsync());
     } else {
-      alert('Am error occured')
+      alert("Am error occured");
     }
-  }
+  };
 
   if (pull.length === 0) {
     return (
       <>
         <View style={styles.altScreen}>
-          <Text style={{ fontSize: 30, alignSelf: 'center' }}>
+          <Text style={{ fontSize: 30, alignSelf: "center" }}>
             No Comics in Pull List
           </Text>
         </View>
       </>
-    )
+    );
   }
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 40, marginBottom: 30 }}> Your Pull List</Text>
+      <Text style={{ fontSize: 40, marginBottom: 25 }}> Your Pull List</Text>
       <FlatList
         data={pull}
         keyExtractor={(item) => item}
@@ -48,47 +51,48 @@ const PullList = () => {
           <>
             <View
               style={{
-                flexDirection: 'row',
-                flexWrap: 'wrap',
-                marginBottom: 15
+                flexDirection: "row",
+                flexWrap: "wrap",
+                marginTop: 26,
+                justifyContent: "space-between",
+                marginHorizontal: 20,
               }}
             >
               <Text
-                style={{ minWidth: '50%', alignSelf: 'center', fontSize: 20 }}
+                style={{ fontSize: fontSize, minWidth: "70%", maxWidth: "90%" }}
               >
                 {item}
               </Text>
               <Icon
                 name="delete-forever"
                 type="material"
-                size={30}
+                size={fontSize * 2}
                 color="red"
                 onPress={() => {
-                  removeFromPull(item)
+                  removeFromPull(item);
                 }}
-              ></Icon>
+              />
             </View>
           </>
         )}
       />
     </View>
-  )
-}
+  );
+};
 
-export default PullList
+export default PullList;
 const styles = StyleSheet.create({
   container: {
     marginTop: 10,
-    marginHorizontal: 10,
-    justifyContent: 'center',
-    alignContent: 'center',
-    alignItems: 'center'
+    justifyContent: "center",
+    alignContent: "center",
+    alignItems: "center",
   },
   altScreen: {
-    display: 'flex',
+    display: "flex",
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
-  }
-})
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+  },
+});

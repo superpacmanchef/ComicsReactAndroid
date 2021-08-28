@@ -5,8 +5,6 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
 export default function App() {
-  const loged = useState(false);
-  const pull = useState([]);
   return (
     <Provider store={store}>
       <NavigationContainer>
