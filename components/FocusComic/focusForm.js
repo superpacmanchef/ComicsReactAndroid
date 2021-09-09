@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import {
   insertCollection,
@@ -6,7 +6,6 @@ import {
   insertPullList,
   removePullList,
 } from "../../apis/UserDatabaseApi";
-import { comicTitleSplit } from "../../utils/comicDataProcessesing";
 import { useAppDispatch } from "../../redux/hooks";
 import { getPullListAsync } from "../../redux/reducers/pullList";
 import { getCollectionAsync } from "../../redux/reducers/collection";
@@ -51,7 +50,7 @@ const FocusForm = (props) => {
       comic.title.replace(/THE /g, "").replace(/The /g, "").toUpperCase()
     );
     if (pullRes) {
-      alert(pullRes + " Removed from Pull List");
+      alert(comic.title + " Removed from Pull List");
       dispatch(getPullListAsync());
     } else {
       alert("An error occured");

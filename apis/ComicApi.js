@@ -1,5 +1,5 @@
 import Axios from "axios";
-const link = "https://9c6f-82-20-31-7.ngrok.io";
+const link = "http://ca31-82-20-31-7.ngrok.io";
 
 /////////////COMICVINE ... MARVELAPI ////////////
 //Takes in indivial comic and returns Cover

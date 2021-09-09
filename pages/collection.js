@@ -21,16 +21,16 @@ const Collection = ({ navigation }) => {
   const [coverDate, updateCoverDate] = useState('')
 
   const collection = useAppSelector(getCollectionState)
-
   const dispatch = useAppDispatch()
 
+  // if collection not already obtained from API do it
   useEffect(() => {
     if (collection.length === 0) {
       dispatch(getCollectionAsync())
     }
   }, [collection.length, dispatch])
 
-  //Navigates to Focus Comic on press
+  //Navigates to focusComic on press
   const comicsPressHandler = (comic) => {
     navigation.navigate('FoucsComic', {
       Comic: comic

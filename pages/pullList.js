@@ -43,23 +43,29 @@ const PullList = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={{ fontSize: 40, marginBottom: 25 }}> Your Pull List</Text>
+      <Text style={{ fontSize: 40, marginBottom: 50 }}> Your Pull List</Text>
       <FlatList
         data={pull}
         keyExtractor={(item) => item}
+        W
         renderItem={({ item }) => (
           <>
             <View
               style={{
                 flexDirection: "row",
                 flexWrap: "wrap",
-                marginTop: 26,
                 justifyContent: "space-between",
                 marginHorizontal: 20,
+                length: "100%",
+                paddingVertical: 10,
               }}
             >
               <Text
-                style={{ fontSize: fontSize, minWidth: "70%", maxWidth: "90%" }}
+                style={{
+                  fontSize: fontSize,
+                  maxWidth: "80%",
+                  marginBottom: 20,
+                }}
               >
                 {item}
               </Text>

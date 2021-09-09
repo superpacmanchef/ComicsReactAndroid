@@ -3,9 +3,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import Login from "../../pages/login";
+import PullList from "../../pages/pullList";
 import Home from "../../pages/Home";
 import FocusComic from "../../pages/focusComic";
-import PullList from "../../pages/pullList";
 import Collection from "../../pages/collection";
 import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { getLogedAsync, getLogedState } from "../../redux/reducers/logedIn";
@@ -15,14 +15,20 @@ import { getCollectionAsync } from "../../redux/reducers/collection";
 const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const CollectionStack = createStackNavigator();
+const PullStack = createStackNavigator();
 
+//Screen stacks for screen with multiple activities
 const HomeStackScreen = () => {
   return (
     <HomeStack.Navigator>
       <HomeStack.Screen name="Home" component={Home} />
       <HomeStack.Screen
         name="FoucsComic"
-        options={({ route }) => ({ title: route.params.Comic.title })}
+        options={({ route }) => ({
+          title: route.params.Comic.issue_number
+            ? route.params.Comic.title + " " + route.params.Comic.issue_number
+            : route.params.Comic.title,
+        })}
         component={FocusComic}
       />
     </HomeStack.Navigator>
@@ -41,13 +47,6 @@ const CollectionStackScreen = () => {
         })}
         component={FocusComic}
       />
-    </CollectionStack.Navigator>
-  );
-};
-const PullStackScreen = () => {
-  return (
-    <CollectionStack.Navigator>
-      <CollectionStack.Screen name="Pull List" component={PullList} />
     </CollectionStack.Navigator>
   );
 };
@@ -90,7 +89,7 @@ const TabNav = () => {
         }}
       >
         <Tab.Screen name="Main" component={HomeStackScreen} />
-        <Tab.Screen name="Pull List" component={PullStackScreen} />
+        <Tab.Screen name="Pull List" component={PullList} />
         <Tab.Screen name="Collection" component={CollectionStackScreen} />
       </Tab.Navigator>
     );

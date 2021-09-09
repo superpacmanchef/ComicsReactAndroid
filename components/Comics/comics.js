@@ -23,9 +23,11 @@ const Comics = (props) => {
   const pull = useAppSelector(getPullListState);
   const loged = useAppSelector(getLogedState);
 
+  //Dynamic font size based on hieght of device
   const fontSize = (10 * height) / 500;
 
   //On comics change update total pages and reset currrent page to 0
+  //Then updates ComicsPage
   useEffect(() => {
     if (comics != null) {
       updateTotalPages(Math.ceil(comics.length / 10));
@@ -41,14 +43,15 @@ const Comics = (props) => {
     }
   }, [pageNo]);
 
+  //On pull or comics change update pullArr
   useEffect(() => {
     if (loged) {
       updatePulledArr(checkPull(comicsPage));
     }
   }, [pull, comics]);
 
-  //Check if comics are on pull list
-  //Returns T/F array
+  //Check if comicsPage comics are on pull list
+  //Returns bool array
   const checkPull = (comics) => {
     const arr = [];
     if (loged && comics) {
@@ -58,11 +61,6 @@ const Comics = (props) => {
         //if true sets pulled to true
         comics.forEach((comic) => {
           for (let x = 0; x < pull.length; x++) {
-            if (!comic.issue_number) {
-              const [title, issue] = comicTitleSplit(comic.title);
-              comic.title = title;
-              comic.issue_number = issue === "" ? "" : "#" + issue;
-            }
             const title = comic.title
               .replace(/AND/g, "")
               .replace(/THE/g, "")
@@ -82,13 +80,6 @@ const Comics = (props) => {
     return arr;
   };
 
-  //Sets comicPage to [] , Gets comicsPage and updates
-  const ComicsPageHandler = async (pageNo) => {
-    updateComicsPage([]);
-    updateLoad(true);
-    const comicsPage = await getComicsPage(pageNo);
-    updateComicsPage(comicsPage);
-  };
   // returns subset of comics based on page with fetched cover
   const getComicsPage = (pageNo) => {
     return new Promise((resolve, reject) => {
@@ -124,7 +115,7 @@ const Comics = (props) => {
             .then((comicArr) => {
               updatePulledArr(checkPull(comicArr));
               updateLoad(false);
-              resolve();
+              resolve(comicArr);
             })
             .catch((err) => {
               // renders None found
@@ -139,7 +130,13 @@ const Comics = (props) => {
     });
   };
 
-  //Ensures Page Number is possible i.e -1
+  const ComicsPageHandler = async (pageNo) => {
+    updateComicsPage([]);
+    updateLoad(true);
+    const comicsPage = await getComicsPage(pageNo);
+    updateComicsPage(comicsPage);
+  };
+
   const updatePageNoHandler = (pos) => {
     if (pageNo < 0 && pos > 0) {
     } else if (pageNo + parseInt(pos) >= totalPages) {
@@ -148,6 +145,7 @@ const Comics = (props) => {
     }
   };
 
+  //Loading Indicator
   if (load) {
     return (
       <>
@@ -254,6 +252,7 @@ const styles = StyleSheet.create({
   comicCover: {
     height: hieght * 0.3,
     aspectRatio: 9 / 14,
+    alignSelf: "flex-end",
   },
   star: {
     height: hieght * 0.04,

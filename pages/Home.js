@@ -45,6 +45,10 @@ const Home = ({ navigation }) => {
   const pull = useAppSelector(getPullListState);
 
   useEffect(() => {
+    weekChangeHandler();
+  }, []);
+
+  useEffect(() => {
     if (loged) {
       dispatch(getPullListAsync());
       dispatch(getCollectionAsync());
@@ -59,17 +63,13 @@ const Home = ({ navigation }) => {
     } else {
       dispatch(removeAllPull());
       dispatch(removeAllCollection());
-    }
-    weekChangeHandler();
-
-    return () => {
       updatePublishers([
         "ALL",
         "MARVEL COMICS",
         "IDW PUBLISHING",
         "DARK HORSE COMICS",
       ]);
-    };
+    }
   }, [loged]);
 
   const filterChangeHandler = async () => {
