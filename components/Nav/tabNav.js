@@ -50,6 +50,13 @@ const CollectionStackScreen = () => {
     </CollectionStack.Navigator>
   );
 };
+const PullStackScreen = () => {
+  return (
+    <PullStack.Navigator>
+      <PullStack.Screen name="Pull" component={PullList}></PullStack.Screen>
+    </PullStack.Navigator>
+  );
+};
 
 //////TODO: MAKE SO DONT HAVE TO HAVE 2 SEPERATE TAB NAVS FOR LOGED AND NOT LOGED
 const TabNav = () => {
@@ -89,7 +96,7 @@ const TabNav = () => {
         }}
       >
         <Tab.Screen name="Main" component={HomeStackScreen} />
-        <Tab.Screen name="Pull List" component={PullList} />
+        <Tab.Screen name="Pull List" component={PullStackScreen} />
         <Tab.Screen name="Collection" component={CollectionStackScreen} />
       </Tab.Navigator>
     );
