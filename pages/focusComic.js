@@ -9,6 +9,13 @@ import { getLogedState } from "../redux/reducers/logedIn";
 import { getCollectionState } from "../redux/reducers/collection";
 import { Dimensions } from "react-native";
 import Image from "react-native-scalable-image";
+import {
+  Collapse,
+  CollapseHeader,
+  CollapseBody,
+  AccordionList,
+} from "accordion-collapse-react-native";
+
 const width = Dimensions.get("screen").width / 2;
 
 const FocusComic = ({ route }) => {
@@ -83,76 +90,124 @@ const FocusComic = ({ route }) => {
             paddingBottom: 20,
           }}
         >
-          <Text style={styles.title}>Description</Text>
-          <Text
-            numberOfLines={3}
-            style={{
-              textAlign: "center",
-              fontSize: 15,
-            }}
-          >
-            {Comic.description}
-          </Text>
-          <Text style={styles.title}>Store Date</Text>
-          <Text
-            style={{
-              textAlign: "center",
-              fontSize: 15,
-            }}
-          >
-            {Comic.release_date ? Comic.release_date : Comic.store_date}
-          </Text>
-          {Comic.diamond_id ? (
-            <>
-              <Text style={styles.title}>Diamond ID</Text>
+          <Collapse>
+            <CollapseHeader>
+              <View>
+                <Text style={styles.title}>Description</Text>
+              </View>
+            </CollapseHeader>
+            <CollapseBody>
               <Text
                 style={{
                   textAlign: "center",
                   fontSize: 15,
                 }}
               >
-                {Comic.diamond_id}
+                {Comic.description}
               </Text>
+            </CollapseBody>
+          </Collapse>
+          <Collapse>
+            <CollapseHeader>
+              <View>
+                <Text style={styles.title}>Store Date</Text>
+              </View>
+            </CollapseHeader>
+            <CollapseBody>
+              <Text
+                style={{
+                  textAlign: "center",
+                  fontSize: 15,
+                }}
+              >
+                {Comic.release_date ? Comic.release_date : Comic.store_date}
+              </Text>
+            </CollapseBody>
+          </Collapse>
+
+          {Comic.diamond_id ? (
+            <>
+              <Collapse>
+                <CollapseHeader>
+                  <View>
+                    <Text style={styles.title}>Diamond ID</Text>
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                    }}
+                  >
+                    {Comic.diamond_id}
+                  </Text>
+                </CollapseBody>
+              </Collapse>
             </>
           ) : null}
           {Comic.id ? (
             <>
-              <Text style={styles.title}>Comic Vine ID</Text>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 15,
-                }}
-              >
-                {Comic.id}
-              </Text>
+              <Collapse>
+                <CollapseHeader>
+                  <View>
+                    <Text style={styles.title}>Comic Vine ID</Text>
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                    }}
+                  >
+                    {Comic.id}
+                  </Text>
+                </CollapseBody>
+              </Collapse>
             </>
           ) : null}
           {Comic.name ? <Text>{Comic.name}</Text> : null}
 
           {Comic.creators ? (
             <>
-              <Text style={styles.title}>Creators</Text>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 15,
-                }}
-              >
-                {Comic.creators}
-              </Text>
+              <Collapse>
+                <CollapseHeader>
+                  <View>
+                    <Text style={styles.title}>Creators</Text>
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      fontSize: 15,
+                    }}
+                  >
+                    {Comic.creators}
+                  </Text>
+                </CollapseBody>
+              </Collapse>
             </>
           ) : null}
           {Comic.price ? (
             <>
-              <Text style={styles.title}>Price</Text>
-              <Text
-                style={{
-                  fontSize: 15,
-                }}
-              >
-                {Comic.price}
-              </Text>
+              <Collapse>
+                <CollapseHeader>
+                  <View>
+                    <Text style={styles.title}>Price</Text>
+                  </View>
+                </CollapseHeader>
+                <CollapseBody>
+                  <Text
+                    style={{
+                      fontSize: 15,
+                    }}
+                  >
+                    {Comic.price}
+                  </Text>
+                </CollapseBody>
+              </Collapse>
             </>
           ) : null}
         </View>
@@ -180,5 +235,6 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 25,
+    textAlign: "center",
   },
 });

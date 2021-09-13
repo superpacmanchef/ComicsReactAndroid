@@ -57,17 +57,10 @@ const Login = ({ navigation }) => {
             },
           ]}
           onPress={() => {
-            updateFormState("register");
+            updateFormState("login");
           }}
         >
-          <Text
-            onPress={() => {
-              updateFormState("login");
-            }}
-            style={[styles.switchText]}
-          >
-            Login
-          </Text>
+          <Text style={[styles.switchText]}>Login</Text>
         </TouchableOpacity>
         <View>
           <TouchableOpacity

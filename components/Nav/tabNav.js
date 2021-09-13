@@ -16,6 +16,7 @@ const Tab = createBottomTabNavigator();
 const HomeStack = createStackNavigator();
 const CollectionStack = createStackNavigator();
 const PullStack = createStackNavigator();
+const LoginStack = createStackNavigator();
 
 //Screen stacks for screen with multiple activities
 const HomeStackScreen = () => {
@@ -55,6 +56,13 @@ const PullStackScreen = () => {
     <PullStack.Navigator>
       <PullStack.Screen name="Pull" component={PullList}></PullStack.Screen>
     </PullStack.Navigator>
+  );
+};
+const LoginStackScreen = () => {
+  return (
+    <LoginStack.Navigator>
+      <LoginStack.Screen name="Login" component={Login}></LoginStack.Screen>
+    </LoginStack.Navigator>
   );
 };
 
@@ -128,7 +136,7 @@ const TabNav = () => {
         }}
       >
         <Tab.Screen name="Main" component={HomeStackScreen} />
-        <Tab.Screen name="Login" component={Login} />
+        <Tab.Screen name="Login" component={LoginStackScreen} />
       </Tab.Navigator>
     );
   }
