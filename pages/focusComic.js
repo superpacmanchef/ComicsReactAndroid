@@ -167,7 +167,25 @@ const FocusComic = ({ route }) => {
               </Collapse>
             </>
           ) : null}
-          {Comic.name ? <Text>{Comic.name}</Text> : null}
+          {Comic.name ? (
+            <Collapse>
+              <CollapseHeader>
+                <View>
+                  <Text style={styles.title}>Title</Text>
+                </View>
+              </CollapseHeader>
+              <CollapseBody>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 15,
+                  }}
+                >
+                  {Comic.name}
+                </Text>
+              </CollapseBody>
+            </Collapse>
+          ) : null}
 
           {Comic.creators ? (
             <>

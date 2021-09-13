@@ -48,10 +48,11 @@ export const checkPullList = (comic, pull) => {
   let pulFlag = 2;
   for (let x = 0; x < pull.length; x++) {
     if (comicsTitle) {
+      console.log(comicsTitle.toUpperCase());
       if (
         pull[x]
           .toUpperCase()
-          .replace(/[.,#!$%;:{}=`~()]/g, "")
+          .replace(/[.,#!$%;{}=`~()]/g, "")
           .replace(/AND /g, "")
           .replace(/THE /g, "") ===
         comicsTitle.replace(/THE /g, "").replace(/The /g, "").toUpperCase()
